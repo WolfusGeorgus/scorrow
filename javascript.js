@@ -106,7 +106,7 @@ function validateForm(ev){
 
 }
 
-window.onload = function() {
+function InitiateGeorgTesting(){
     document.addEventListener('submit', validateForm);
     var obstacles = GetAllObstacles();
 
@@ -130,7 +130,7 @@ window.onload = function() {
     });
 
     let names = Array("Georg", "Peter");
-    let test = CreateSession("Spass", "Easy Parkour", names);
+    let test = CreateSession("Hi", "Easy Parkour", names);
     let x = 1;
 
 }
