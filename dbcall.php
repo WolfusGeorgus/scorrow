@@ -14,7 +14,7 @@ if (isset($_POST['action'])) {
         CheckParkourName($_POST['name']);
     }
     if ($_POST['action'] == "CreateParkour") {
-        CreateParkour($_POST['name'], json_decode($_POST["ids"]));
+        CreateParkour($_POST['name'], $_POST['location'], json_decode($_POST["ids"]));
     }
     if ($_POST['action'] == "CreateSession") {
         CreateSession($_POST['session'], $_POST['parkour'], json_decode($_POST["users"]));
@@ -132,7 +132,7 @@ function CheckParkourName($name)
     $conn->close();
 }
 
-function CreateParkour($name, $obstaclenames)
+function CreateParkour($name, $location, $obstaclenames)
 {
     $servername = "localhost";
     $username = "root";
@@ -145,7 +145,7 @@ function CreateParkour($name, $obstaclenames)
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    mysqli_query($conn, "INSERT into Parkour (name) values ('$name')");
+    mysqli_query($conn, "INSERT into Parkour (name, location) values ('$name', '$location')");
     $last_id = $conn->insert_id;
 
     $ids_array = array();
@@ -188,7 +188,7 @@ function CreateSession($session, $parkour, $users)
 
     //Add users
     foreach ($users as $name) {
-        mysqli_query($conn, "INSERT into player (name, session_id) values ('$name','$last_id')");
+        mysqli_query($conn, "INSERT into player (firstname, lastname, nickname, session_id) values ('$name[0]', '$name[1]', '$name[2]', '$last_id')");
     }
 
     echo $last_id;

@@ -32,12 +32,12 @@ function CheckParkourName(ParkourName) {
 };
 //CheckParkourName("Easy Parkour");
 
-function CreateParkour(ParkourName, obstacleNames) {
+function CreateParkour(ParkourName, locationName, obstacleNames) {
     $.ajax({
         type: "POST",
         url: 'dbcall.php',
         async: false,
-        data: {action: "CreateParkour", name: ParkourName, ids: JSON.stringify(obstacleNames)},
+        data: {action: "CreateParkour", name: ParkourName, location: locationName, ids: JSON.stringify(obstacleNames)},
         success: function (result) {
         }
     });
@@ -50,7 +50,7 @@ function CreateSession(sessionName, parkourName, userNames) {
         type: "POST",
         url: 'dbcall.php',
         async: false,
-        data: {action: "CreateSession", session: sessionName,parkour: parkourName, users: JSON.stringify(userNames)},
+        data: {action: "CreateSession", session: sessionName, parkour: parkourName, users: JSON.stringify(userNames)},
         success: function (result) {
             sessionId = result;
         }
