@@ -15,6 +15,8 @@
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
@@ -24,6 +26,10 @@
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/dual-listbox/dist/dual-listbox.css" rel="stylesheet"/>
+
+  <!-- CDN -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
@@ -90,7 +96,7 @@
 
         <div class="row">
           <div class="col-lg-4" data-aos="fade-right">
-            <img src="assets/img/arrow.png" class="img-fluid" alt="">
+            <img src="assets/img/arrow.png" class="img-fluid" alt="Arrow">
           </div>
           <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
             <h3>UI/UX Designer &amp; Web Developer.</h3>
@@ -240,7 +246,7 @@
       </div>
     </section><!-- End Skills Section -->
 
-    <!-- ======= Anlegen Section ======= -->
+    <!-- ======= Parkour Anlegen Section ======= -->
     <section id="anlegen" class="resume">
       <div class="container">
       <form>
@@ -259,13 +265,13 @@
             <select id="select" class="select1" multiple>
             </select>
           </div>
-          <input class="btn btn-dark btn-lg"s type="submit" value="Parkour anlegen">
+          <input class="btn btn-dark btn-lg" type="submit" value="Parkour anlegen">
 
         </div>
 
       </form>
       </div>
-    </section> <!--End Resume Section -->
+    </section> <!--End Parkour Anlegen Section -->
 
     <!-- ======= Teilnehmer Anlegen Section ======= -->
     <section id="teilnehmer">
@@ -274,26 +280,73 @@
       <div class="section-title">
         <h2>Teilnehmer anlegen</h2>
       </div>
-        <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
+        <div class="container">
           <form action="forms/contact.php" method="post" role="form" class="php-email-form">
             <div class="row">
-              <div class="form-group col-md-6">
-                <label for="name">Vorname</label>
-                <input type="text" name="name" class="form-control" id="vorName" required>
+              <div class="form-group col-md-8" >
+                <div class="container-lg">
+                  <div class="table-responsive">
+                    <div class="table-wrapper">
+                      <div class="table-title">
+                        <div class="row">
+                          <div class="col-sm-8"><h2>Teilnehmer <b>Details</b></h2></div>
+                          <div class="col-sm-4">
+                            <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
+                          </div>
+                        </div>
+                      </div>
+                      <table class="table table-bordered" id="teilnehmerTable">
+                        <thead>
+                        <tr>
+                          <th>Vorname</th>
+                          <th>Nachname</th>
+                          <th>Nickname</th>
+                          <th>Aktionen</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                          <td>John Doe</td>
+                          <td>Administration</td>
+                          <td>(171) 555-2222</td>
+                          <td>
+                            <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
+                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Peter Parker</td>
+                          <td>Customer Service</td>
+                          <td>(313) 555-5735</td>
+                          <td>
+                            <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
+                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Fran Wilson</td>
+                          <td>Human Resources</td>
+                          <td>(503) 555-9931</td>
+                          <td>
+                            <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
+                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="form-group col-md-6">
-                <label for="name">Nachname</label>
-                <input type="email" class="form-control" id="nName" required>
+              <div class="form-group col-md-4">
+
               </div>
-              <div class="form-group col-md-6">
-                <label for="name">Nickname</label>
-                <input type="email" class="form-control" id="nickName" required>
-              </div>
-              <div class="text-center" ><button class="btn btn-dark btn-lg" type="submit">Anlegen</button></div>
             </div>
           </form>
         </div>
-
       </div>
 
     </div>
@@ -321,7 +374,7 @@
           </div>
         </div>
         -->
-        <img id="tier" src="assets/img/hirsch.png" alt="Workplace" usemap="#workmap" width="400" height="400">
+        <img id="tier" src="assets/img/hirsch.png" alt="Hirsch" usemap="#workmap" width="400" height="400">
 
 
           <map name="workmap">
@@ -573,6 +626,7 @@
   <script src="https://www.virtuosoft.eu/code/bootstrap-duallistbox/bootstrap-duallistbox/v3.0.2/jquery.bootstrap-duallistbox.js"></script>
 
   <link rel="stylesheet" type="text/css" href="https://www.virtuosoft.eu/code/bootstrap-duallistbox/bootstrap-duallistbox/v3.0.2/bootstrap-duallistbox.css">
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
