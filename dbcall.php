@@ -10,6 +10,9 @@ if (isset($_POST['action'])) {
     if ($_POST['action'] == "GetObstacleByParkour") {
         GetObstacleByParkour($_POST['name']);
     }
+    if ($_POST['action'] == "GetNamesBySessionId") {
+        GetNicknamesBySessionId($_POST['sessionId']);
+    }
     if ($_POST['action'] == "CheckParkourName") {
         CheckParkourName($_POST['name']);
     }
@@ -107,6 +110,35 @@ function GetObstacleByParkour($parkourName)
     }
     $conn->close();
     echo json_encode($obstacles);
+}
+
+function GetNicknamesBySessionId($sessionId)
+{
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "scorrow";
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "SELECT p.nickname FROM player p WHERE session_id = '$sessionId'";
+    $result = $conn->query($sql);
+    $names = array();
+
+    if ($result->num_rows > 0) {
+        // output data of each row
+        while ($row = $result->fetch_assoc()) {
+            $names[] = $row["nickname"];
+
+        }
+    } else {
+        echo "0 results";
+    }
+    $conn->close();
+    echo json_encode($names);
 }
 
 function CheckParkourName($name)

@@ -77,6 +77,20 @@ function GetObstacleByParkour(parkourName) {
 //    document.getElementById("testing").innerHTML += key + ": " + result[key] + "<br>";
 //}
 
+function GetNamesBySessionId(sessionId) {
+    var arr = Array();
+    $.ajax({
+        type: "POST",
+        url: 'dbcall.php',
+        async: false,
+        data: {action: "GetNamesBySessionId", sessionId: sessionId},
+        success: function (result) {
+            arr = JSON.parse(result);
+        }
+    });
+    return arr;
+};
+
 function GetAllObstacles() {
     var arr = Array();
     $.ajax({
