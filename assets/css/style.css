@@ -1139,7 +1139,6 @@ section {
   width: 400px;
   grid-template-columns: repeat(20, 1fr);
   grid-template-rows: repeat(20, 1fr);
-  border-radius: 50%;
 }
 
 .white-outer {
@@ -1222,24 +1221,6 @@ section {
 
 }
 
-.cross {
-  background-color: black;
-  height: 10px;
-  position: relative;
-  width: 2px;
-  border-radius: 0;
-}
-
-.cross:after {
-  background-color: black;
-  content: "";
-  height: 2px;
-  left: -4px;
-  position: absolute;
-  top: 4px;
-  width: 10px;
-
-}
 /*--------------------------------------
 Table
 -------------------------------------- */
@@ -1283,13 +1264,3 @@ table, th, td {
   border:1px solid black;
   border-collapse: collapse;
 }
-#tier {
-  border: 5px solid red;
-  border-radius: 60%;
-}
-#canvas{
-  border: 5px solid red;
-  border-radius: 60%;
-  position: absolute;
-}
-

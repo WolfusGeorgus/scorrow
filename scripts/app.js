@@ -43,9 +43,9 @@ function spielStarten() {
     let shoot = "";
     let shootInNum = 0;
     let playerNum = 1;
-    let blackin = document.getElementById('4'),
-        redout = document.getElementById('7'),
-        goldin = document.getElementById('10'),
+    let blackin = document.getElementById('16'),
+        redout = document.getElementById('18'),
+        goldin = document.getElementById('20'),
         startButton = document.getElementById('startButton');
 
 
@@ -84,35 +84,9 @@ function spielStarten() {
             userPoints = 0;
             shoot = "";
         }
-
-        $("#canvas").click(function(e){
-            getPosition(e);
-        });
-
-
-        function getPosition(event){
-            var rect = canvas.getBoundingClientRect();
-            var x = event.clientX - rect.left;
-            var y = event.clientY - rect.top;
-
-            drawCoordinates(x,y);
-        }
     }
 }
 //var result = GetAllObstacles();
 //for (var key in result) {
 //    document.getElementById("testing").innerHTML += key + ": " + result[key] + "<br>";
 //}
-
-//RED DOT
-
-function drawCoordinates(x,y){
-    var ctx = document.getElementById("canvas").getContext("2d");
-    var pointSize = 3;
-
-    ctx.fillStyle = "#ff2626"; // Red color
-
-    ctx.beginPath();
-    ctx.arc(x, y, pointSize, 0, Math.PI * 2, true);
-    ctx.fill();
-}
