@@ -105,6 +105,17 @@ function GetAllObstacles() {
     return arr;
 };
 
+function makeShot(sessionId, playername, obstaclename, attempt, circle) {
+    $.ajax({
+        type: "POST",
+        url: 'dbcall.php',
+        async: false,
+        data: {action: "MakeShot", session: sessionId, playername: playername, obstaclename: obstaclename, attempt: attempt, circle: circle},
+        success: function (result) {
+        }
+    });
+};
+
 function InitiateGeorgTesting(){
     document.addEventListener('submit', validateForm);
     var obstacles = GetAllObstacles();

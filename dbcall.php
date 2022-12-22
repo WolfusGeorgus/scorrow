@@ -22,6 +22,9 @@ if (isset($_POST['action'])) {
     if ($_POST['action'] == "CreateSession") {
         CreateSession($_POST['session'], $_POST['parkour'], json_decode($_POST["users"]));
     }
+    if ($_POST['action'] == "MakeShot") {
+        MakeShot($_POST['session'], $_POST['playername'], $_POST['obstaclename'], $_POST['attempt'],$_POST['circle']);
+    }
 }
 
 function GetAllObstacles()
@@ -224,6 +227,31 @@ function CreateSession($session, $parkour, $users)
     }
 
     echo $last_id;
+    $conn->close();
+}
+
+
+function MakeShot($session, $playername, $obstaclename, $attempt, $circle)
+{
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "scorrow";
+
+// Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    //Get parkour id
+    mysqli_query($conn, "insert into shot (session_id, obstacle_id, player_id, score_id) 
+                    values ('$session', 
+                    (select obstacle_id from obstacle where name = '$obstaclename'),
+                    (select player_id from player where session_id = 1 and nickname = '$playername'),
+                    (select score_id from score where attempt = '$attempt' and circle = '$circle'));");
+
     $conn->close();
 }
 
