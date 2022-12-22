@@ -75,8 +75,7 @@ function GetParkour()
     if ($result->num_rows > 0) {
         // output data of each row
         while ($row = $result->fetch_assoc()) {
-            $Parkours[] = $row["name"];
-
+            $Parkours[intval($row["parkour_id"])] = $row["name"];
         }
     } else {
         echo "0 results";

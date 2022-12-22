@@ -90,6 +90,18 @@ window.onload = function() {
         removeAllButtonText: '<<'
     });
     spielStarten();
+
+    //Add parkours to create session part
+
+    var parkours = GetParkours();
+    let i = 0;
+    for(key in parkours){
+        if (i = 0){
+            document.getElementById("parkourDropdown").innerHTML += "<br><option id=" + key + " value='" + key + "' selected>"+ parkours[key] + "</option>";
+        }else{
+            document.getElementById("parkourDropdown").innerHTML += "<br><option id=" + key + " value='" + key + "'>"+ parkours[key] + "</option>";
+        }
+    }
 }
 let run = true;
 function spielStarten() {
