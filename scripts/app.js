@@ -102,6 +102,9 @@ window.onload = function() {
             document.getElementById("parkourDropdown").innerHTML += "<br><option id=" + key + " value='" + key + "'>"+ parkours[key] + "</option>";
         }
     }
+
+    var sessionId =  Math.random().toString(36).slice(2).substring(5);
+    document.getElementById("sessionId").value = sessionId;
 }
 let run = true;
 function spielStarten() {

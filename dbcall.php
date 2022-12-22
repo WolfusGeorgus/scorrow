@@ -217,15 +217,14 @@ function CreateSession($session, $parkour, $users)
     $parkourid = intval($parkourrow[0]);
 
     //Add session
-    mysqli_query($conn, "INSERT into session (name, parkour_id) values ('$session', '$parkourid')");
-    $last_id = intval($conn->insert_id);
+    mysqli_query($conn, "INSERT into session (session_id, parkour_id) values ('$session', '$parkourid')");
 
     //Add users
     foreach ($users as $name) {
-        mysqli_query($conn, "INSERT into player (firstname, lastname, nickname, session_id) values ('$name[0]', '$name[1]', '$name[2]', '$last_id')");
+        mysqli_query($conn, "INSERT into player (firstname, lastname, nickname, session_id) values ('$name[0]', '$name[1]', '$name[2]', '$session')");
     }
 
-    echo $last_id;
+    echo $session;
     $conn->close();
 }
 
