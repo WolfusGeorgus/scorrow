@@ -106,56 +106,97 @@ window.onload = function() {
     var sessionId =  Math.random().toString(36).slice(2).substring(5);
     document.getElementById("sessionId").value = sessionId;
 }
+
+/*---------------Game-----------------------
+--------------------------------------------- */
 let run = true;
+let userPoints = 0;
+let shoot = "";
+let shootInNum = 1;
+let playerNum = 1;
+let point = 0;
+let hit = true;
+let blue = document.getElementById('blue'),
+    red = document.getElementById('red'),
+    gold = document.getElementById('gold'),
+    targetBoard = document.getElementById('targetBoard'),
+startButton = document.getElementById('startButton');
+
 function spielStarten() {
-    let userPoints = 0;
-    let shoot = "";
-    let shootInNum = 0;
-    let playerNum = 1;
-    let blackin = document.getElementById('16'),
-        redout = document.getElementById('18'),
-        goldin = document.getElementById('20'),
-        startButton = document.getElementById('startButton');
+    startButton.addEventListener('click', spielRun)
+}
 
-
-        startButton.addEventListener('click', spielRun)
-
-        function spielRun() {
-            if(run){
-                blackin.addEventListener('click', targetHit);
-                redout.addEventListener('click', targetHit);
-                goldin.addEventListener('click', targetHit);
-                startButton.innerText = "Stop";
-                run = false;
-            }
-            else{
-                blackin.removeEventListener('click', targetHit);
-                redout.removeEventListener('click', targetHit);
-                goldin.removeEventListener('click', targetHit);
-                startButton.innerText = "Start";
-                run = true;
-            }
-        }
-
-    function targetHit(event) {
-            
-        if(shootInNum < 3){
-            shootInNum += 1;
-            userPoints += parseInt(event.target.id);
-            shoot += "X";
-            document.getElementById(`point${playerNum}`).innerText = userPoints;
-            document.getElementById(`hit${playerNum}`).innerText = shoot;
-        }
-        else {
-            alert('You reached the limit! Next player...');
-            playerNum += 1;
-            shootInNum = 0;
-            userPoints = 0;
-            shoot = "";
-        }
+function spielRun() {
+    if(run){
+        blue.addEventListener('click', targetHit);
+        red.addEventListener('click', targetHit);
+        gold.addEventListener('click', targetHit);
+        targetBoard.addEventListener('click',targetHit);
+        startButton.innerText = "Stop";
+        run = false;
+    }
+    else{
+        blue.removeEventListener('click', targetHit);
+        red.removeEventListener('click', targetHit);
+        gold.removeEventListener('click', targetHit);
+        targetBoard.removeEventListener('click',targetHit)
+        startButton.innerText = "Start";
+        run = true;
     }
 }
-//var result = GetAllObstacles();
-//for (var key in result) {
-//    document.getElementById("testing").innerHTML += key + ": " + result[key] + "<br>";
-//}
+function targetHit(event) {
+
+    switch (event.target.id) {
+        case 'blue':
+            point = getPoints(shootInNum,2);
+            document.getElementById(`point${playerNum}`).innerText = point;
+            playerNum++;
+            event.stopImmediatePropagation();
+            break;
+        case 'red':
+            point = getPoints(shootInNum,1);
+            document.getElementById(`point${playerNum}`).innerText = point;
+            playerNum++;
+            event.stopImmediatePropagation();
+            break;
+        case 'gold':
+            point = getPoints(shootInNum,0);
+            document.getElementById(`point${playerNum}`).innerText = point;
+            playerNum++;
+            event.stopImmediatePropagation();
+            break;
+        case 'targetBoard':
+            point = 0;
+            if(shootInNum == 3){
+                playerNum++;
+                event.stopImmediatePropagation();
+                shootInNum = 0;
+                event.stopImmediatePropagation();
+                break;
+            }
+            shootInNum++;
+            hit = false;
+            shoot += "X";
+            document.getElementById(`hit${playerNum}`).innerText = shoot;
+            event.stopImmediatePropagation();
+            break;
+    }
+
+
+}
+
+function getPoints(shootInNummer, target){
+    const firstShootPoints = [20,18,16];
+    const secondShootPoints = [14,12,10];
+    const thirdShootPoints = [8,6,4];
+
+    if(shootInNummer == 1){
+        return firstShootPoints[target];
+    }
+    else if(shootInNummer == 2){
+        return secondShootPoints[target];
+    }
+    else if(shootInNummer == 3){
+        return  thirdShootPoints[target];
+    }
+}
