@@ -12,24 +12,25 @@ create table obstacle
     difficulty int
 );
 
-create table Parkour
+create table parkour
 (
-	Parkour_id int unsigned not null auto_increment,
-    primary key (Parkour_id),
+	parkour_id int unsigned not null auto_increment,
+    primary key (parkour_id),
     name varchar(20) not null unique,
+    location varchar(30),
     difficulty int
 );
 
 -- obstacle_nr is used for restoring a session, so we know where we stopped
 
-create table Parkour_obstacle
+create table parkour_obstacle
 (
-	Parkour_id int unsigned not null,
+	parkour_id int unsigned not null,
     obstacle_id int unsigned not null,
     obstacle_nr int not null,
-    constraint Parkour_obstacle_pk primary key (Parkour_id, obstacle_id),
-    constraint Parkour_obstacle_fk1 foreign key (Parkour_id) references Parkour (Parkour_id),
-    constraint Parkour_obstacle_fk2 foreign key (obstacle_id) references obstacle (obstacle_id)
+    constraint parkour_obstacle_pk primary key (parkour_id, obstacle_id),
+    constraint parkour_obstacle_fk1 foreign key (parkour_id) references parkour (parkour_id),
+    constraint parkour_obstacle_fk2 foreign key (obstacle_id) references obstacle (obstacle_id)
 );
 
 -- current_player and current_obstacle is used for restoring a session,
@@ -37,15 +38,14 @@ create table Parkour_obstacle
 
 create table session
 (
-	session_id int unsigned not null auto_increment,
+	session_id varchar(8),
     primary key (session_id),
-    Parkour_id int unsigned not null,
-    name varchar(100),
+	parkour_id int unsigned not null,
     player_count int,
     obstacle_count int,
     current_player int,
     current_obstacle int,
-    constraint session_fk foreign key (Parkour_id) references Parkour (Parkour_id)
+    constraint session_fk foreign key (parkour_id) references parkour (parkour_id)
 );
 
 -- player_nr is used for restoring a session, so we know where we stopped
@@ -54,9 +54,11 @@ create table player
 (
 	player_id int unsigned not null auto_increment,
     primary key (player_id),
-    name varchar(30),
+    firstname varchar(30),
+    lastname varchar(30),
+    nickname varchar(30),
     player_nr int, 
-    session_id int unsigned not null,
+    session_id varchar(8),
     constraint playerfk foreign key (session_id) references session (session_id)
 );
 
@@ -73,7 +75,7 @@ create table score
 
 create table shot
 (
-	session_id int unsigned not null,
+	session_id varchar(8),
     player_id int unsigned not null,
     obstacle_id int unsigned not null,
     score_id int unsigned not null,
