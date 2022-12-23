@@ -67,7 +67,7 @@
           <li><a href="#hero" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Startseite</span></a></li>
           <li><a href="#about" class="nav-link scrollto"><i class="bx bx-user"></i> <span>Über uns</span></a></li>
           <li><a href="#anlegen" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Parkour anlegen</span></a></li>
-          <li><a href="#teilnehmer" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Teilnehmer anlegen</span></a></li>
+          <li><a href="#teilnehmer" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Session anlegen</span></a></li>
           <li><a href="#spiel" class="nav-link scrollto"><i class="bx bx-server"></i> <span>Spiel starten</span></a></li>
           <li><a href="#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Kontakt</span></a></li>
         </ul>
@@ -278,10 +278,21 @@
     <div class="container">
 
       <div class="section-title">
-        <h2>Teilnehmer anlegen</h2>
+        <h2>Session anlegen</h2>
       </div>
         <div class="container">
           <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+            <div class="row">
+              <div class="col-3">
+                <label for="name">Parkour</label>
+              <select id="parkourDropdown" class="form-select" aria-label="Default select example">
+            </select>
+              </div>
+              <div class="col-3">
+                <label for="name">Session ID</label><br>
+                <input id="sessionId" value=""  disabled>
+              </div>
+            </div>
             <div class="row">
               <div class="form-group col-md-8" >
                 <div class="container-lg">

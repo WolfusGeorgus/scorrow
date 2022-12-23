@@ -1,19 +1,3 @@
-function GetParkours() {
-    $.ajax({
-        type: "POST",
-        url: 'dbcall.php',
-        async: false,
-        data: {action: "GetParkour"},
-        success: function (result) {
-            var arr = JSON.parse(result);
-            arr.forEach(element => {
-                document.getElementById("testing").innerHTML += element + "<br>";
-            });
-
-        }
-    });
-};
-//GetParkours();
 
 function CheckParkourName(ParkourName) {
     let isUsed = false;
@@ -91,6 +75,21 @@ function GetNamesBySessionId(sessionId) {
     return arr;
 };
 
+function GetParkours() {
+    var arr = Array();
+    $.ajax({
+        type: "POST",
+        url: 'dbcall.php',
+        async: false,
+        data: {action: "GetParkour"},
+        success: function (result) {
+            arr = JSON.parse(result);
+        }
+    });
+    return arr;
+};
+//GetParkours();
+
 function GetAllObstacles() {
     var arr = Array();
     $.ajax({
@@ -103,6 +102,17 @@ function GetAllObstacles() {
         }
     });
     return arr;
+};
+
+function makeShot(sessionId, playername, obstaclename, attempt, circle) {
+    $.ajax({
+        type: "POST",
+        url: 'dbcall.php',
+        async: false,
+        data: {action: "MakeShot", session: sessionId, playername: playername, obstaclename: obstaclename, attempt: attempt, circle: circle},
+        success: function (result) {
+        }
+    });
 };
 
 function InitiateGeorgTesting(){
