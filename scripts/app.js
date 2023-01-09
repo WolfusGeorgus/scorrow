@@ -54,11 +54,12 @@ $(document).ready(function(){
 
 function validateForm(ev){
     let parkourName = document.getElementById("parkour-input").value;
+    let location = document.getElementById("parkourOrt-input").value;
     if (!CheckParkourName(parkourName)){
         let obstacles = $("#select option:selected").map(function () {
             return this.value;
         }).get();
-        CreateParkour(parkourName, obstacles);
+        CreateParkour(parkourName, location, obstacles);
     }
     else{
         ev.preventDefault();
