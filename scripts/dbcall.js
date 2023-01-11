@@ -138,7 +138,7 @@ function InitiateGeorgTesting(){
         removeAllButtonText: '<<'
     });
 
-    let names = Array("Georg", "Peter");
+    let names = Array(Array("Georg", "Wolf", "Tschortsch"), Array("Rustam", "Eder", "Rusty"));
     let test = CreateSession("Hi", "Easy Parkour", names);
     let x = 1;
 
