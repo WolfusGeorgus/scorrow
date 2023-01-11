@@ -54,7 +54,7 @@ $(document).ready(function(){
     });
 });
 
-function validateForm(ev){
+function validateParkourForm(ev){
     let parkourName = document.getElementById("parkour-input").value;
     let location = document.getElementById("parkourOrt-input").value;
     if (!CheckParkourName(parkourName)){
@@ -70,8 +70,39 @@ function validateForm(ev){
 
 }
 
+let sessionId = 0;
+
+function validateSessionForm(ev){
+    let parkour = document.getElementById("parkourDropdown");
+    let parkourName = parkour.options[parkour.selectedIndex].text;
+    sessionId = document.getElementById("sessionId").value;
+    var table = document.getElementById('teilnehmerTable');
+    const listOfMembers = [];
+    for (var r = 1, n = table.rows.length; r < n; r++) {
+        const listOfNames = [];
+        for (var c = 0, m = table.rows[r].cells.length; c < m - 1; c++) {
+            listOfNames[c] = table.rows[r].cells[c].innerHTML;
+        }
+
+        listOfMembers[r-1] = listOfNames;
+    }
+
+    let session = CreateSession(sessionId, parkourName, listOfMembers);
+    document.getElementById("sessionId").value = Math.random().toString(36).slice(2).substring(5);
+}
+
+$("#spielStartenModalButton").click(function() {
+    $('#createSessionSuccessModal').modal('hide');
+    $('html, body').animate({
+        scrollTop: $("#spiel").offset().top
+    }, 200);
+});
+
 window.onload = function() {
-    document.addEventListener("submit", validateForm);
+    var submitParkour = document.getElementById("parkourAnlegenBTN");
+    var submitSession = document.getElementById("sessionAnlegenBTN");
+    submitParkour.addEventListener("click", validateParkourForm);
+    submitSession.addEventListener("click", validateSessionForm);
     var obstacles = GetAllObstacles();
 
     for (var key in obstacles) {

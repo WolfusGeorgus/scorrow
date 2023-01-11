@@ -265,7 +265,7 @@
             <select id="select" class="select1" multiple>
             </select>
           </div>
-          <input class="btn btn-dark btn-lg" type="submit" value="Parkour anlegen">
+          <input class="btn btn-dark btn-lg" type="submit" value="Parkour anlegen" id="parkourAnlegenBTN">
 
         </div>
 
@@ -295,14 +295,14 @@
             </div>
             <div class="row">
               <div class="form-group col-md-8" >
-                <div class="container-lg">
+
                   <div class="table-responsive">
                     <div class="table-wrapper">
                       <div class="table-title">
                         <div class="row">
                           <div class="col-sm-8"><h2>Teilnehmer <b>Details</b></h2></div>
                           <div class="col-sm-4">
-                            <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
+                            <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Neu</button>
                           </div>
                         </div>
                       </div>
@@ -318,9 +318,9 @@
                         </thead>
                         <tbody>
                         <tr>
-                          <td></td>
-                          <td></td>
-                          <td></td>
+                          <td>Max</td>
+                          <td>Mustermann</td>
+                          <td>MaxM1998</td>
                           <td>
                             <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
                             <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
@@ -329,9 +329,31 @@
                         </tr>
                         </tbody>
                       </table>
+
+                    </div>
+                    <input class="btn btn-dark btn-lg" type="submit" value="Session anlegen" id="sessionAnlegenBTN" data-toggle="modal" data-target="#createSessionSuccessModal">
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="createSessionSuccessModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Erfolg</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            Die Session wurde erfolgreich erstellt!
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" id="spielStartenModalButton" class="btn btn-primary">Spiel Starten!</button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
+
               </div>
               <div class="form-group col-md-4">
 

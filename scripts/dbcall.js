@@ -14,7 +14,6 @@ function CheckParkourName(ParkourName) {
     });
     return isUsed;
 };
-//CheckParkourName("Easy Parkour");
 
 function CreateParkour(ParkourName, locationName, obstacleNames) {
     $.ajax({
@@ -26,7 +25,6 @@ function CreateParkour(ParkourName, locationName, obstacleNames) {
         }
     });
 };
-//CreateParkour("Hello", new Array("Schaf", "Ziege"));
 
 function CreateSession(sessionName, parkourName, userNames) {
     var sessionId;
@@ -61,13 +59,13 @@ export function GetObstacleByParkour(parkourName) {
 //    document.getElementById("testing").innerHTML += key + ": " + result[key] + "<br>";
 //}
 
-export function GetNamesBySessionId(sessionId) {
+export function GetNamesBySessionId(session) {
     var arr = Array();
     $.ajax({
         type: "POST",
         url: 'dbcall.php',
         async: false,
-        data: {action: "GetNamesBySessionId", sessionId: sessionId},
+        data: {action: "GetNamesBySessionId", session: session},
         success: function (result) {
             arr = JSON.parse(result);
         }
@@ -88,7 +86,6 @@ function GetParkours() {
     });
     return arr;
 };
-//GetParkours();
 
 function GetAllObstacles() {
     var arr = Array();
@@ -115,6 +112,20 @@ export function makeShot(sessionId, playername, obstaclename, attempt, circle) {
     });
 };
 
+export function GetShotsByPlayer(session, playername) {
+    var arr = Array();
+    $.ajax({
+        type: "POST",
+        url: 'dbcall.php',
+        async: false,
+        data: {action: "GetShotsByPlayer", session: session, playername: playername},
+        success: function (result) {
+            arr = JSON.parse(result);
+        }
+    });
+    return arr;
+};
+
 function InitiateGeorgTesting(){
     document.addEventListener('submit', validateForm);
     var obstacles = GetAllObstacles();
@@ -138,13 +149,8 @@ function InitiateGeorgTesting(){
         removeAllButtonText: '<<'
     });
 
-    let names = Array("Georg", "Peter");
+    let names = Array(Array("Georg", "Wolf", "Tschortsch"), Array("Rustam", "Eder", "Rusty"));
     let test = CreateSession("Hi", "Easy Parkour", names);
     let x = 1;
 
 }
-
-//var result = GetAllObstacles();
-//for (var key in result) {
-//    document.getElementById("testing").innerHTML += key + ": " + result[key] + "<br>";
-//}
