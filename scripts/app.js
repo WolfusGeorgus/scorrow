@@ -54,11 +54,12 @@ $(document).ready(function(){
 
 function validateForm(ev){
     let parkourName = document.getElementById("parkour-input").value;
+    let location = document.getElementById("parkourOrt-input").value;
     if (!CheckParkourName(parkourName)){
         let obstacles = $("#select option:selected").map(function () {
             return this.value;
         }).get();
-        CreateParkour(parkourName, obstacles);
+        CreateParkour(parkourName, location, obstacles);
     }
     else{
         ev.preventDefault();
@@ -151,32 +152,39 @@ function targetHit(event) {
             point = getPoints(shootInNum,2);
             document.getElementById(`point${playerNum}`).innerText = point;
             playerNum++;
+            shootInNum = 1;
+            shoot = "";
             event.stopImmediatePropagation();
             break;
         case 'red':
             point = getPoints(shootInNum,1);
             document.getElementById(`point${playerNum}`).innerText = point;
             playerNum++;
+            shootInNum = 1;
+            shoot = "";
             event.stopImmediatePropagation();
             break;
         case 'gold':
             point = getPoints(shootInNum,0);
             document.getElementById(`point${playerNum}`).innerText = point;
             playerNum++;
+            shootInNum = 1;
+            shoot = "";
             event.stopImmediatePropagation();
             break;
         case 'targetBoard':
             point = 0;
+            shoot += "X";
             if(shootInNum == 3){
+                document.getElementById(`hit${playerNum}`).innerText = shoot;
                 playerNum++;
-                event.stopImmediatePropagation();
-                shootInNum = 0;
+                shoot = "";
+                shootInNum = 1;
                 event.stopImmediatePropagation();
                 break;
             }
             shootInNum++;
             hit = false;
-            shoot += "X";
             document.getElementById(`hit${playerNum}`).innerText = shoot;
             event.stopImmediatePropagation();
             break;

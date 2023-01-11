@@ -26,9 +26,7 @@ if (isset($_POST['action'])) {
         MakeShot($_POST['session'], $_POST['playername'], $_POST['obstaclename'], $_POST['attempt'],$_POST['circle']);
     }
 }
-
-function GetAllObstacles()
-{
+function ConnectToDb(){
     $servername = "localhost";
     $username = "root";
     $password = "";
@@ -39,6 +37,14 @@ function GetAllObstacles()
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
+    else{
+        return $conn;
+    }
+}
+function GetAllObstacles()
+{
+    $conn = ConnectToDb();
+
     $sql = "SELECT * FROM obstacle";
     $result = $conn->query($sql);
     $obstacles = array();
@@ -58,16 +64,8 @@ function GetAllObstacles()
 
 function GetParkour()
 {
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "scorrow";
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    $conn = ConnectToDb();
+
     $sql = "SELECT * from Parkour";
     $result = $conn->query($sql);
     $Parkours = array();
@@ -86,16 +84,8 @@ function GetParkour()
 
 function GetObstacleByParkour($parkourName)
 {
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "scorrow";
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    $conn = ConnectToDb();
+
     $sql = "SELECT o.obstacle_id, o.name, po.obstacle_nr FROM obstacle o, parkour_obstacle po, parkour p WHERE
     o.obstacle_id = po.obstacle_id AND po.parkour_id = p.parkour_id AND p.name = '$parkourName' order by po.obstacle_nr";
     $result = $conn->query($sql);
@@ -116,16 +106,8 @@ function GetObstacleByParkour($parkourName)
 
 function GetNicknamesBySessionId($sessionId)
 {
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "scorrow";
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    $conn = ConnectToDb();
+
     $sql = "SELECT p.nickname FROM player p WHERE session_id = '$sessionId'";
     $result = $conn->query($sql);
     $names = array();
@@ -145,16 +127,8 @@ function GetNicknamesBySessionId($sessionId)
 
 function CheckParkourName($name)
 {
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "scorrow";
-// Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    $conn = ConnectToDb();
+
     $sql = "SELECT * from Parkour where name = '$name'";
     $result = $conn->query($sql);
 
@@ -168,17 +142,8 @@ function CheckParkourName($name)
 
 function CreateParkour($name, $location, $obstaclenames)
 {
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "scorrow";
+    $conn = ConnectToDb();
 
-// Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
     mysqli_query($conn, "INSERT into Parkour (name, location) values ('$name', '$location')");
     $last_id = $conn->insert_id;
 
@@ -198,17 +163,7 @@ function CreateParkour($name, $location, $obstaclenames)
 
 function CreateSession($session, $parkour, $users)
 {
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "scorrow";
-
-// Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    $conn = ConnectToDb();
 
     //Get parkour id
     $sql = "SELECT parkour_id from parkour where name = '$parkour'";
@@ -231,17 +186,7 @@ function CreateSession($session, $parkour, $users)
 
 function MakeShot($session, $playername, $obstaclename, $attempt, $circle)
 {
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "scorrow";
-
-// Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    $conn = ConnectToDb();
 
     //Get parkour id
     mysqli_query($conn, "insert into shot (session_id, obstacle_id, player_id, score_id) 
