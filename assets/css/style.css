@@ -1339,7 +1339,7 @@ Table
   font-weight: bold;
   color: #040b14;
 }
-#spielHead{
+#spielerName, #animal{
   font-size: 27px;
 }
 table, th, td {

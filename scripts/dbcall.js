@@ -42,7 +42,7 @@ function CreateSession(sessionName, parkourName, userNames) {
     return sessionId;
 };
 
-function GetObstacleByParkour(parkourName) {
+export function GetObstacleByParkour(parkourName) {
     var arr = Array();
     $.ajax({
         type: "POST",
@@ -61,7 +61,7 @@ function GetObstacleByParkour(parkourName) {
 //    document.getElementById("testing").innerHTML += key + ": " + result[key] + "<br>";
 //}
 
-function GetNamesBySessionId(sessionId) {
+export function GetNamesBySessionId(sessionId) {
     var arr = Array();
     $.ajax({
         type: "POST",
@@ -104,7 +104,7 @@ function GetAllObstacles() {
     return arr;
 };
 
-function makeShot(sessionId, playername, obstaclename, attempt, circle) {
+export function makeShot(sessionId, playername, obstaclename, attempt, circle) {
     $.ajax({
         type: "POST",
         url: 'dbcall.php',
