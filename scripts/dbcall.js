@@ -121,31 +121,3 @@ export function GetShotsByPlayer(session, playername) {
     return arr;
 };
 
-function InitiateGeorgTesting(){
-    document.addEventListener('submit', validateForm);
-    var obstacles = GetAllObstacles();
-
-    for (var key in obstacles) {
-        document.getElementById("select").innerHTML += "<option value=" + obstacles[key] + ">" + obstacles[key] + "</option>";// key + ": " + obstacles[key] + "<br>";
-    };
-
-    new DualListbox('.select1',{
-        addEvent: function(value) {
-            console.log(value);
-        },
-        removeEvent: function(value) {
-            console.log(value);
-        },
-        availableTitle: 'Available options',
-        selectedTitle: 'I want to use this',
-        addButtonText: '>',
-        removeButtonText: '<',
-        addAllButtonText: '>>',
-        removeAllButtonText: '<<'
-    });
-
-    let names = Array(Array("Georg", "Wolf", "Tschortsch"), Array("Rustam", "Eder", "Rusty"));
-    let test = CreateSession("Hi", "Easy Parkour", names);
-    let x = 1;
-
-}
