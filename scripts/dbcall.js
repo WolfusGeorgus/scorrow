@@ -14,7 +14,6 @@ function CheckParkourName(ParkourName) {
     });
     return isUsed;
 };
-//CheckParkourName("Easy Parkour");
 
 function CreateParkour(ParkourName, locationName, obstacleNames) {
     $.ajax({
@@ -26,7 +25,6 @@ function CreateParkour(ParkourName, locationName, obstacleNames) {
         }
     });
 };
-//CreateParkour("Hello", new Array("Schaf", "Ziege"));
 
 function CreateSession(sessionName, parkourName, userNames) {
     var sessionId;
@@ -56,18 +54,13 @@ function GetObstacleByParkour(parkourName) {
     return arr;
 };
 
-//var result = GetObstacleByParkour("Testing");
-//for (var key in result) {
-//    document.getElementById("testing").innerHTML += key + ": " + result[key] + "<br>";
-//}
-
-function GetNamesBySessionId(sessionId) {
+function GetNamesBySessionId(session) {
     var arr = Array();
     $.ajax({
         type: "POST",
         url: 'dbcall.php',
         async: false,
-        data: {action: "GetNamesBySessionId", sessionId: sessionId},
+        data: {action: "GetNamesBySessionId", session: session},
         success: function (result) {
             arr = JSON.parse(result);
         }
@@ -88,7 +81,6 @@ function GetParkours() {
     });
     return arr;
 };
-//GetParkours();
 
 function GetAllObstacles() {
     var arr = Array();
@@ -113,6 +105,20 @@ function makeShot(sessionId, playername, obstaclename, attempt, circle) {
         success: function (result) {
         }
     });
+};
+
+export function GetShotsByPlayer(session, playername) {
+    var arr = Array();
+    $.ajax({
+        type: "POST",
+        url: 'dbcall.php',
+        async: false,
+        data: {action: "GetShotsByPlayer", session: session, playername: playername},
+        success: function (result) {
+            arr = JSON.parse(result);
+        }
+    });
+    return arr;
 };
 
 function InitiateGeorgTesting(){
@@ -143,8 +149,3 @@ function InitiateGeorgTesting(){
     let x = 1;
 
 }
-
-//var result = GetAllObstacles();
-//for (var key in result) {
-//    document.getElementById("testing").innerHTML += key + ": " + result[key] + "<br>";
-//}

@@ -7,6 +7,9 @@ insert into obstacle (name) values
 insert into Parkour 
 	(name) values ("Easy Parkour"), ("Medium Parkour");
     
+insert into parkour_obstacle (parkour_id, obstacle_id, obstacle_nr) values
+	(1, 1, 1), (1, 2, 2), (1, 3, 3), (2, 5, 1), (2, 7, 2), (2, 8, 3);
+    
 -- insert scorepoints
 insert into score (points, attempt, circle) values 
 	(20, 1, 1),
@@ -17,6 +20,7 @@ insert into score (points, attempt, circle) values
 	(10, 2, 3),
 	(8, 3, 1),
 	(6, 3, 2),
-	(4, 3, 3);
+	(4, 3, 3),
+    (0, 3, 0);
 
 

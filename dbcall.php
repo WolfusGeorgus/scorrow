@@ -25,6 +25,9 @@ if (isset($_POST['action'])) {
     if ($_POST['action'] == "MakeShot") {
         MakeShot($_POST['session'], $_POST['playername'], $_POST['obstaclename'], $_POST['attempt'],$_POST['circle']);
     }
+    if ($_POST['action'] == "GetShotsByPlayer") {
+        GetShotsByPlayer($_POST['session'], $_POST['playername']);
+    }
 }
 function ConnectToDb(){
     $servername = "localhost";
@@ -183,7 +186,6 @@ function CreateSession($session, $parkour, $users)
     $conn->close();
 }
 
-
 function MakeShot($session, $playername, $obstaclename, $attempt, $circle)
 {
     $conn = ConnectToDb();
@@ -196,6 +198,31 @@ function MakeShot($session, $playername, $obstaclename, $attempt, $circle)
                     (select score_id from score where attempt = '$attempt' and circle = '$circle'));");
 
     $conn->close();
+}
+
+function GetShotsByPlayer($session, $playername){
+    $conn = ConnectToDb();
+
+    $sql = "select points from shot sh, score sc, parkour_obstacle po
+                where sh.obstacle_id = po.obstacle_id
+                and sc.score_id = sh.score_id
+                and po.parkour_id = (select parkour_id from session where session_id = '$session')
+                AND session_id = '$session' and player_id = '$playername'
+                order by obstacle_nr;";
+    $result = $conn->query($sql);
+    $points = array();
+
+    if ($result->num_rows > 0) {
+        // output data of each row
+        while ($row = $result->fetch_assoc()) {
+            $points[] = $row["points"];
+
+        }
+    } else {
+        echo "0 results";
+    }
+    $conn->close();
+    echo json_encode($points);
 }
 
 ?>
