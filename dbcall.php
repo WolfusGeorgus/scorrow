@@ -217,8 +217,8 @@ function MakeShot($session, $playername, $obstaclename, $attempt, $circle)
     mysqli_query($conn, "insert into shot (session_id, obstacle_id, player_id, score_id) 
                     values ('$session', 
                     (select obstacle_id from obstacle where name = '$obstaclename'),
-                    (select player_id from player where session_id = 1 and nickname = '$playername'),
-                    (select score_id from score where attempt = '$attempt' and circle = '$circle'));");
+                    (select player_id from player where session_id = '$session' and nickname = '$playername'),
+                    (select score_id from score where attempt = '$attempt' and circle = '$circle'))");
 
     $conn->close();
 }

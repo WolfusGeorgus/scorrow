@@ -175,6 +175,7 @@ function spielStarten() {
 }
 
 function spielRun() {
+    GetGraph("dhaw2a");
     if(run){
         blue.addEventListener('click', targetHit);
         red.addEventListener('click', targetHit);
@@ -209,7 +210,6 @@ function spielRun() {
     }
 }
 function targetHit(event) {
-
     if(playerMax > playerNum) {
         switch (event.target.id) {
             case 'blue':
@@ -294,4 +294,37 @@ function getPoints(shootInNummer, target){
     else if(shootInNummer == 3){
         return  thirdShootPoints[target];
     }
+}
+
+function GetGraph(session){
+    const parkour = dbcall.GetParkourBySession(session);
+    const names =dbcall. GetNamesBySessionId(session);
+    const obstacles = dbcall.GetObstacleByParkour(parkour);
+    const points = names.map(name => dbcall.GetShotsByPlayer(session, name));
+    const colors = ["rgb(167,32,32)", "rgb(155, 55, 102)", "rgb(33, 102, 102)", "rgb(155, 102, 33)",
+                    "rgb(139,134,31)", "rgb(150,196,92)", "rgb(161,105,203)", "rgb(0,0,0)"];
+
+
+    let myChart = new Chart("myChart", {
+        type: "line",
+        data: {
+            labels: obstacles
+        },
+        options: {
+            legend: {display: false}
+        }
+    });
+
+//Add Datasets
+    for (let i = 0; i < names.length; i++) {
+        let newDataset = {
+            label: names[i],
+            data: points[i],
+            borderColor: colors[i],
+            fill: false
+        }
+        myChart.data.datasets.push(newDataset);
+        myChart.update();
+    }
+
 }
