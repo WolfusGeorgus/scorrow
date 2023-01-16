@@ -169,7 +169,7 @@ let blue = document.getElementById('blue'),
     red = document.getElementById('red'),
     gold = document.getElementById('gold'),
     targetBoard = document.getElementById('targetBoard'),
-startButton = document.getElementById('startButton'),
+    startButton = document.getElementById('startButton'),
     obstaclesSpiel,
     playerNames;
 
@@ -178,7 +178,7 @@ function spielStarten() {
 }
 
 function spielRun() {
-    GetGraph("dhaw2a");
+    GetGraph(sessionID);
     if(run){
         blue.addEventListener('click', targetHit);
         red.addEventListener('click', targetHit);
@@ -326,7 +326,16 @@ function GetGraph(session){
             labels: obstacles
         },
         options: {
-            legend: {display: false}
+            legend: {display: true},
+            scales: {
+                y: {
+                    max: 20,
+                    min: 0,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
         }
     });
 
@@ -345,7 +354,6 @@ function GetGraph(session){
 }
 
 function UpdateGraph(session, playername, points){
-    //Ich bekomme ich leider noch null bei playername
     myChart.data.datasets.find(dataset => dataset.label === playername).data.push(points);
     myChart.update();
 }
