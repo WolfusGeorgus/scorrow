@@ -79,6 +79,7 @@ $("#sessionAnlegenModalButton").click(function() {
     }, 200);
 });
 
+
 function validateSessionForm(ev){
     let parkour = document.getElementById("parkourDropdown");
     let parkourName = parkour.options[parkour.selectedIndex].text;
@@ -155,11 +156,11 @@ let run = true;
 let userPoints = 0;
 let shoot = "";
 let shootInNum = 1;
-let playerNum = 1;
+let playerNum = 0;
 let playerMax;
 let point = 0;
 let hit = true;
-let obstacleNum = 1;
+let obstacleNum = 0;
 
 let blue = document.getElementById('blue'),
     red = document.getElementById('red'),
@@ -186,11 +187,11 @@ function spielRun() {
         document.getElementById(`spielerName`).innerText = playerNames[playerNum];
 
 
-        for(let i = 0; i <= playerMax; i++){
+        for(let i = 0; i < playerMax; i++){
             var row = '<tr>' +
                 '<td>'+ `${playerNames[i]}`+'</td>\n' +
-                '<td id='+ `hit${playerNum}`+'></td>\n' +
-                '<td id='+`point${playerNum}`+'>0</td>' +
+                '<td id='+ `hit${i}`+'></td>\n' +
+                '<td id='+`point${i}`+'>0</td>' +
                 '</tr>';
 
             $("#scoreBoard").append(row);
@@ -209,36 +210,36 @@ function spielRun() {
 }
 function targetHit(event) {
 
-    if(playerMax >= playerNum) {
+    if(playerMax > playerNum) {
         switch (event.target.id) {
             case 'blue':
                 point = getPoints(shootInNum, 2);
                 document.getElementById(`point${playerNum}`).innerText = point;
+                dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 3);
                 playerNum++;
                 shootInNum = 1;
                 shoot = "";
                 document.getElementById(`spielerName`).innerText = playerNames[playerNum];
-                dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 3)
                 event.stopImmediatePropagation();
                 break;
             case 'red':
                 point = getPoints(shootInNum, 1);
                 document.getElementById(`point${playerNum}`).innerText = point;
+                dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 2)
                 playerNum++;
                 shootInNum = 1;
                 shoot = "";
                 document.getElementById(`spielerName`).innerText = playerNames[playerNum];
-                dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 2)
                 event.stopImmediatePropagation();
                 break;
             case 'gold':
                 point = getPoints(shootInNum, 0);
                 document.getElementById(`point${playerNum}`).innerText = point;
+                dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 1);
                 playerNum++;
                 shootInNum = 1;
                 shoot = "";
                 document.getElementById(`spielerName`).innerText = playerNames[playerNum];
-                dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 1)
                 event.stopImmediatePropagation();
                 break;
             case 'targetBoard':
@@ -264,9 +265,13 @@ function targetHit(event) {
     else if(obstacleNum <= obstaclesSpiel.length){
         obstacleNum++;
         document.getElementById(`animal`).innerText = obstaclesSpiel[obstacleNum];
-        playerNum = 1;
+        playerNum = 0;
+        for(let i; i < playerMax; i++){
+
+        }
+        document.getElementById(`point${playerNum}`).innerText = point;
         shoot = "";
-        for(let i = 1; i <= playerMax; i++){
+        for(let i = 0; i < playerMax; i++){
             document.getElementById(`hit${i}`).innerText = shoot;
         }
     }
