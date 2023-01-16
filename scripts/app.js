@@ -1,4 +1,7 @@
 import * as dbcall from './dbcall.js';
+
+var myChart;
+
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
     var actions = $("#teilnehmerTable td:last-child").html();
@@ -166,7 +169,7 @@ let blue = document.getElementById('blue'),
     red = document.getElementById('red'),
     gold = document.getElementById('gold'),
     targetBoard = document.getElementById('targetBoard'),
-startButton = document.getElementById('startButton'),
+    startButton = document.getElementById('startButton'),
     obstaclesSpiel,
     playerNames;
 
@@ -175,7 +178,7 @@ function spielStarten() {
 }
 
 function spielRun() {
-    GetGraph("dhaw2a");
+    GetGraph(sessionID);
     if(run){
         blue.addEventListener('click', targetHit);
         red.addEventListener('click', targetHit);
@@ -219,6 +222,9 @@ function targetHit(event) {
                 playerNum++;
                 shootInNum = 1;
                 shoot = "";
+                document.getElementById(`spielerName`).innerText = playerNames[playerNum];
+                dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 3);
+                UpdateGraph(sessionID, playerNames[playerNum], point);
                 if(playerMax > playerNum){
                     document.getElementById(`spielerName`).innerText = playerNames[playerNum];
                 }
@@ -234,6 +240,9 @@ function targetHit(event) {
                 playerNum++;
                 shootInNum = 1;
                 shoot = "";
+                document.getElementById(`spielerName`).innerText = playerNames[playerNum];
+                dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 2);
+                UpdateGraph(sessionID, playerNames[playerNum], point);
                 if(playerMax > playerNum){
                     document.getElementById(`spielerName`).innerText = playerNames[playerNum];
                 }
@@ -249,6 +258,9 @@ function targetHit(event) {
                 playerNum++;
                 shootInNum = 1;
                 shoot = "";
+                document.getElementById(`spielerName`).innerText = playerNames[playerNum];
+                dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 1);
+                UpdateGraph(sessionID, playerNames[playerNum], point);
                 if(playerMax > playerNum){
                     document.getElementById(`spielerName`).innerText = playerNames[playerNum];
                 }
@@ -325,13 +337,22 @@ function GetGraph(session){
                     "rgb(139,134,31)", "rgb(150,196,92)", "rgb(161,105,203)", "rgb(0,0,0)"];
 
 
-    let myChart = new Chart("myChart", {
+        myChart = new Chart("myChart", {
         type: "line",
         data: {
             labels: obstacles
         },
         options: {
-            legend: {display: false}
+            legend: {display: true},
+            scales: {
+                y: {
+                    max: 20,
+                    min: 0,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
         }
     });
 
@@ -347,4 +368,9 @@ function GetGraph(session){
         myChart.update();
     }
 
+}
+
+function UpdateGraph(session, playername, points){
+    myChart.data.datasets.find(dataset => dataset.label === playername).data.push(points);
+    myChart.update();
 }
