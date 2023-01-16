@@ -7,11 +7,14 @@ if (isset($_POST['action'])) {
     if ($_POST['action'] == "GetParkour") {
         GetParkour();
     }
+    if ($_POST['action'] == "GetParkourBySession") {
+        GetParkourBySession($_POST['session']);
+    }
     if ($_POST['action'] == "GetObstacleByParkour") {
         GetObstacleByParkour($_POST['name']);
     }
     if ($_POST['action'] == "GetNamesBySessionId") {
-        GetNicknamesBySessionId($_POST['sessionId']);
+        GetNicknamesBySessionId($_POST['session']);
     }
     if ($_POST['action'] == "CheckParkourName") {
         CheckParkourName($_POST['name']);
@@ -85,6 +88,27 @@ function GetParkour()
     echo json_encode($Parkours);
 }
 
+function GetParkourBySession($session) {
+
+    $conn = ConnectToDb();
+
+    $sql = "select p.name from parkour p, session s where  s.session_id = '$session'
+                and s.parkour_id = p.parkour_id;";
+    $result = $conn->query($sql);
+    $parkour = "";
+
+    if ($result->num_rows > 0) {
+        // output data of each row
+        while ($row = $result->fetch_assoc()) {
+            $parkour = $row["name"];
+        }
+    } else {
+        echo "0 results";
+    }
+    $conn->close();
+    echo $parkour;
+}
+
 function GetObstacleByParkour($parkourName)
 {
     $conn = ConnectToDb();
@@ -98,7 +122,6 @@ function GetObstacleByParkour($parkourName)
         // output data of each row
         while ($row = $result->fetch_assoc()) {
             $obstacles[intval($row["obstacle_id"])] = $row["name"];
-
         }
     } else {
         echo "0 results";
@@ -203,11 +226,12 @@ function MakeShot($session, $playername, $obstaclename, $attempt, $circle)
 function GetShotsByPlayer($session, $playername){
     $conn = ConnectToDb();
 
-    $sql = "select points from shot sh, score sc, parkour_obstacle po
+    $sql = "select points from shot sh, score sc, parkour_obstacle po, player p
                 where sh.obstacle_id = po.obstacle_id
                 and sc.score_id = sh.score_id
+                and p.player_id = sh.player_id
                 and po.parkour_id = (select parkour_id from session where session_id = '$session')
-                AND session_id = '$session' and player_id = '$playername'
+                AND p.session_id = '$session' and nickname = '$playername'
                 order by obstacle_nr;";
     $result = $conn->query($sql);
     $points = array();

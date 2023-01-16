@@ -1,4 +1,3 @@
-
 function CheckParkourName(ParkourName) {
     let isUsed = false;
     $.ajax({
@@ -7,7 +6,7 @@ function CheckParkourName(ParkourName) {
         async: false,
         data: {action: "CheckParkourName", name: ParkourName},
         success: function (result) {
-            if (result == "used"){
+            if (result == "used") {
                 isUsed = true;
             }
         }
@@ -51,7 +50,7 @@ function GetObstacleByParkour(parkourName) {
             arr = JSON.parse(result);
         }
     });
-    return arr;
+    return Object.values(arr);
 };
 
 function GetNamesBySessionId(session) {
@@ -65,8 +64,8 @@ function GetNamesBySessionId(session) {
             arr = JSON.parse(result);
         }
     });
-    return arr;
-};
+    return Object.values(arr);
+}
 
 function GetParkours() {
     var arr = Array();
@@ -79,7 +78,21 @@ function GetParkours() {
             arr = JSON.parse(result);
         }
     });
-    return arr;
+    return Object.values(arr);
+};
+
+function GetParkourBySession(session) {
+    var parkour = "test";
+    $.ajax({
+        type: "POST",
+        url: 'dbcall.php',
+        async: false,
+        data: {action: "GetParkourBySession", session: session},
+        success: function (result) {
+            parkour = result;
+        }
+    });
+    return parkour;
 };
 
 function GetAllObstacles() {
@@ -93,7 +106,7 @@ function GetAllObstacles() {
             arr = JSON.parse(result);
         }
     });
-    return arr;
+    return Object.values(arr);
 };
 
 function makeShot(sessionId, playername, obstaclename, attempt, circle) {
@@ -101,13 +114,20 @@ function makeShot(sessionId, playername, obstaclename, attempt, circle) {
         type: "POST",
         url: 'dbcall.php',
         async: false,
-        data: {action: "MakeShot", session: sessionId, playername: playername, obstaclename: obstaclename, attempt: attempt, circle: circle},
+        data: {
+            action: "MakeShot",
+            session: sessionId,
+            playername: playername,
+            obstaclename: obstaclename,
+            attempt: attempt,
+            circle: circle
+        },
         success: function (result) {
         }
     });
 };
 
-export function GetShotsByPlayer(session, playername) {
+function GetShotsByPlayer(session, playername) {
     var arr = Array();
     $.ajax({
         type: "POST",
@@ -118,6 +138,6 @@ export function GetShotsByPlayer(session, playername) {
             arr = JSON.parse(result);
         }
     });
-    return arr;
+    return Object.values(arr);
 };
 
