@@ -54,11 +54,6 @@ export function GetObstacleByParkour(parkourName) {
     return Object.values(arr);
 };
 
-//var result = GetObstacleByParkour("Testing");
-//for (var key in result) {
-//    document.getElementById("testing").innerHTML += key + ": " + result[key] + "<br>";
-//}
-
 export function GetNamesBySessionId(session) {
     var arr = Array();
     $.ajax({
@@ -87,7 +82,7 @@ export function GetParkours() {
     return Object.values(arr);
 };
 
-function GetParkourBySession(session) {
+export function GetParkourBySession(session) {
     var parkour = "test";
     $.ajax({
         type: "POST",
@@ -133,7 +128,7 @@ export function makeShot(sessionId, playername, obstaclename, attempt, circle) {
     });
 };
 
-function GetShotsByPlayer(session, playername) {
+export function GetShotsByPlayer(session, playername) {
     var arr = Array();
     $.ajax({
         type: "POST",
