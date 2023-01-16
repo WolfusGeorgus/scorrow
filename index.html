@@ -265,7 +265,27 @@
             <select id="select" class="select1" multiple>
             </select>
           </div>
-          <input class="btn btn-dark btn-lg" type="submit" value="Parkour anlegen" id="parkourAnlegenBTN">
+          <input class="btn btn-dark btn-lg" type="submit" value="Parkour anlegen" id="parkourAnlegenBTN" data-toggle="modal" data-target="#createParkourSuccessModal">
+
+          <!-- Modal -->
+          <div class="modal fade" id="createParkourSuccessModal" tabindex="-1" role="dialog" aria-labelledby="exampleParkourModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleParkourModalLabel">Erfolg</h5>
+                  <button type="button" id="parkourModalcloseBtn" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  Das Parkour wurde erfolgreich erstellt!
+                </div>
+                <div class="modal-footer">
+                  <button type="button" id="sessionAnlegenModalButton" class="btn btn-primary">Session Anlegen!</button>
+                </div>
+              </div>
+            </div>
+          </div>
 
         </div>
 
@@ -339,7 +359,7 @@
                         <div class="modal-content">
                           <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Erfolg</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <button type="button" id="modalcloseBtn" class="close" data-dismiss="modal" aria-label="Close">
                               <span aria-hidden="true">&times;</span>
                             </button>
                           </div>

@@ -1,5 +1,5 @@
-
 export function CheckParkourName(ParkourName) {
+
     let isUsed = false;
     $.ajax({
         type: "POST",
@@ -7,7 +7,7 @@ export function CheckParkourName(ParkourName) {
         async: false,
         data: {action: "CheckParkourName", name: ParkourName},
         success: function (result) {
-            if (result == "used"){
+            if (result == "used") {
                 isUsed = true;
             }
         }
@@ -70,8 +70,8 @@ export function GetNamesBySessionId(session) {
             arr = JSON.parse(result);
         }
     });
-    return arr;
-};
+    return Object.values(arr);
+}
 
 export function GetParkours() {
     var arr = Array();
@@ -84,7 +84,21 @@ export function GetParkours() {
             arr = JSON.parse(result);
         }
     });
-    return arr;
+    return Object.values(arr);
+};
+
+function GetParkourBySession(session) {
+    var parkour = "test";
+    $.ajax({
+        type: "POST",
+        url: 'dbcall.php',
+        async: false,
+        data: {action: "GetParkourBySession", session: session},
+        success: function (result) {
+            parkour = result;
+        }
+    });
+    return parkour;
 };
 
 export function GetAllObstacles() {
@@ -98,7 +112,7 @@ export function GetAllObstacles() {
             arr = JSON.parse(result);
         }
     });
-    return arr;
+    return Object.values(arr);
 };
 
 export function makeShot(sessionId, playername, obstaclename, attempt, circle) {
@@ -106,13 +120,20 @@ export function makeShot(sessionId, playername, obstaclename, attempt, circle) {
         type: "POST",
         url: 'dbcall.php',
         async: false,
-        data: {action: "MakeShot", session: sessionId, playername: playername, obstaclename: obstaclename, attempt: attempt, circle: circle},
+        data: {
+            action: "MakeShot",
+            session: sessionId,
+            playername: playername,
+            obstaclename: obstaclename,
+            attempt: attempt,
+            circle: circle
+        },
         success: function (result) {
         }
     });
 };
 
-export function GetShotsByPlayer(session, playername) {
+function GetShotsByPlayer(session, playername) {
     var arr = Array();
     $.ajax({
         type: "POST",
@@ -123,34 +144,6 @@ export function GetShotsByPlayer(session, playername) {
             arr = JSON.parse(result);
         }
     });
-    return arr;
+    return Object.values(arr);
 };
 
-function InitiateGeorgTesting(){
-    document.addEventListener('submit', validateForm);
-    var obstacles = GetAllObstacles();
-
-    for (var key in obstacles) {
-        document.getElementById("select").innerHTML += "<option value=" + obstacles[key] + ">" + obstacles[key] + "</option>";// key + ": " + obstacles[key] + "<br>";
-    };
-
-    new DualListbox('.select1',{
-        addEvent: function(value) {
-            console.log(value);
-        },
-        removeEvent: function(value) {
-            console.log(value);
-        },
-        availableTitle: 'Available options',
-        selectedTitle: 'I want to use this',
-        addButtonText: '>',
-        removeButtonText: '<',
-        addAllButtonText: '>>',
-        removeAllButtonText: '<<'
-    });
-
-    let names = Array(Array("Georg", "Wolf", "Tschortsch"), Array("Rustam", "Eder", "Rusty"));
-    let test = CreateSession("Hi", "Easy Parkour", names);
-    let x = 1;
-
-}

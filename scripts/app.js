@@ -71,6 +71,14 @@ function validateParkourForm(ev){
 
 let sessionID = 0;
 let parkourNameSpiel;
+
+$("#sessionAnlegenModalButton").click(function() {
+    $('#parkourModalcloseBtn').trigger("click");
+    $('html, body').animate({
+        scrollTop: $("#teilnehmer").offset().top
+    }, 200);
+});
+
 function validateSessionForm(ev){
     let parkour = document.getElementById("parkourDropdown");
     let parkourName = parkour.options[parkour.selectedIndex].text;
@@ -92,7 +100,7 @@ function validateSessionForm(ev){
 }
 
 $("#spielStartenModalButton").click(function() {
-    $('#createSessionSuccessModal').modal('hide');
+    $('#modalcloseBtn').trigger("click");
     $('html, body').animate({
         scrollTop: $("#spiel").offset().top
     }, 200);
