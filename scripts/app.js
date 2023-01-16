@@ -1,5 +1,4 @@
 import * as dbcall from './dbcall.js';
-
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
     var actions = $("#teilnehmerTable td:last-child").html();
@@ -57,11 +56,11 @@ $(document).ready(function(){
 function validateParkourForm(ev){
     let parkourName = document.getElementById("parkour-input").value;
     let location = document.getElementById("parkourOrt-input").value;
-    if (!CheckParkourName(parkourName)){
+    if (!dbcall.CheckParkourName(parkourName)){
         let obstacles = $("#select option:selected").map(function () {
             return this.value;
         }).get();
-        CreateParkour(parkourName, location, obstacles);
+        dbcall.CreateParkour(parkourName, location, obstacles);
     }
     else{
         ev.preventDefault();
@@ -70,12 +69,13 @@ function validateParkourForm(ev){
 
 }
 
-let sessionId = 0;
-
+let sessionID = 0;
+let parkourNameSpiel;
 function validateSessionForm(ev){
     let parkour = document.getElementById("parkourDropdown");
     let parkourName = parkour.options[parkour.selectedIndex].text;
-    sessionId = document.getElementById("sessionId").value;
+    parkourNameSpiel = parkourName;
+    sessionID = document.getElementById("sessionId").value;
     var table = document.getElementById('teilnehmerTable');
     const listOfMembers = [];
     for (var r = 1, n = table.rows.length; r < n; r++) {
@@ -87,7 +87,7 @@ function validateSessionForm(ev){
         listOfMembers[r-1] = listOfNames;
     }
 
-    let session = CreateSession(sessionId, parkourName, listOfMembers);
+    let session = dbcall.CreateSession(sessionID, parkourName, listOfMembers);
     document.getElementById("sessionId").value = Math.random().toString(36).slice(2).substring(5);
 }
 
@@ -103,7 +103,7 @@ window.onload = function() {
     var submitSession = document.getElementById("sessionAnlegenBTN");
     submitParkour.addEventListener("click", validateParkourForm);
     submitSession.addEventListener("click", validateSessionForm);
-    var obstacles = GetAllObstacles();
+    var obstacles = dbcall.GetAllObstacles();
 
     for (var key in obstacles) {
         document.getElementById("select").innerHTML += "<option value=" + obstacles[key] + ">" + obstacles[key] + "</option>";// key + ": " + obstacles[key] + "<br>";
@@ -127,7 +127,7 @@ window.onload = function() {
 
     //Add parkours to create session part
 
-    var parkours = GetParkours();
+    var parkours = dbcall.GetParkours();
     let i = 0;
     for(key in parkours){
         if (i = 0){
@@ -151,7 +151,6 @@ let playerNum = 1;
 let playerMax;
 let point = 0;
 let hit = true;
-let sessionId = 0;
 let obstacleNum = 1;
 
 let blue = document.getElementById('blue'),
@@ -159,14 +158,11 @@ let blue = document.getElementById('blue'),
     gold = document.getElementById('gold'),
     targetBoard = document.getElementById('targetBoard'),
 startButton = document.getElementById('startButton'),
-    obstacles,
+    obstaclesSpiel,
     playerNames;
 
 function spielStarten() {
     startButton.addEventListener('click', spielRun)
-    obstacles = dbcall.GetObstacleByParkour();
-    playerNames = dbcall.GetNamesBySessionId();
-    playerMax = playerNames.length;
 }
 
 function spielRun() {
@@ -175,8 +171,12 @@ function spielRun() {
         red.addEventListener('click', targetHit);
         gold.addEventListener('click', targetHit);
         targetBoard.addEventListener('click',targetHit);
-        document.getElementById(`animal`).innerText = obstacles[obstacleNum];
+        obstaclesSpiel = dbcall.GetObstacleByParkour(parkourNameSpiel);
+        playerNames = dbcall.GetNamesBySessionId(sessionID);
+        playerMax = playerNames.length;
+        document.getElementById(`animal`).innerText = obstaclesSpiel[obstacleNum];
         document.getElementById(`spielerName`).innerText = playerNames[playerNum];
+
 
         for(let i = 0; i <= playerMax; i++){
             var row = '<tr>' +
@@ -210,7 +210,7 @@ function targetHit(event) {
                 shootInNum = 1;
                 shoot = "";
                 document.getElementById(`spielerName`).innerText = playerNames[playerNum];
-                dbcall.makeShot(sessionId, playerNames[playerNum], obstacles[obstacleNum], shootInNum, 3)
+                dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 3)
                 event.stopImmediatePropagation();
                 break;
             case 'red':
@@ -220,7 +220,7 @@ function targetHit(event) {
                 shootInNum = 1;
                 shoot = "";
                 document.getElementById(`spielerName`).innerText = playerNames[playerNum];
-                dbcall.makeShot(sessionId, playerNames[playerNum], obstacles[obstacleNum], shootInNum, 2)
+                dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 2)
                 event.stopImmediatePropagation();
                 break;
             case 'gold':
@@ -230,14 +230,14 @@ function targetHit(event) {
                 shootInNum = 1;
                 shoot = "";
                 document.getElementById(`spielerName`).innerText = playerNames[playerNum];
-                dbcall.makeShot(sessionId, playerNames[playerNum], obstacles[obstacleNum], shootInNum, 1)
+                dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 1)
                 event.stopImmediatePropagation();
                 break;
             case 'targetBoard':
                 point = 0;
                 shoot += "X";
                 if (shootInNum == 3) {
-                    dbcall.makeShot(sessionId, playerNames[playerNum], obstacles[obstacleNum], shootInNum, 0)
+                    dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 0)
                     document.getElementById(`hit${playerNum}`).innerText = shoot;
                     playerNum++;
                     shoot = "";
@@ -253,16 +253,16 @@ function targetHit(event) {
                 break;
         }
     }
-    else if(obstacleNum <= obstacles.length){
+    else if(obstacleNum <= obstaclesSpiel.length){
         obstacleNum++;
-        document.getElementById(`animal`).innerText = obstacles[obstacleNum];
+        document.getElementById(`animal`).innerText = obstaclesSpiel[obstacleNum];
         playerNum = 1;
         shoot = "";
         for(let i = 1; i <= playerMax; i++){
             document.getElementById(`hit${i}`).innerText = shoot;
         }
     }
-    else if (obstacleNum > obstacles.length){
+    else if (obstacleNum > obstaclesSpiel.length){
         //Spiel Ende!! TODO
     }
 }

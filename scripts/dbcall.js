@@ -1,5 +1,5 @@
 
-function CheckParkourName(ParkourName) {
+export function CheckParkourName(ParkourName) {
     let isUsed = false;
     $.ajax({
         type: "POST",
@@ -15,7 +15,7 @@ function CheckParkourName(ParkourName) {
     return isUsed;
 };
 
-function CreateParkour(ParkourName, locationName, obstacleNames) {
+export function CreateParkour(ParkourName, locationName, obstacleNames) {
     $.ajax({
         type: "POST",
         url: 'dbcall.php',
@@ -26,7 +26,7 @@ function CreateParkour(ParkourName, locationName, obstacleNames) {
     });
 };
 
-function CreateSession(sessionName, parkourName, userNames) {
+export function CreateSession(sessionName, parkourName, userNames) {
     var sessionId;
     $.ajax({
         type: "POST",
@@ -51,7 +51,7 @@ export function GetObstacleByParkour(parkourName) {
             arr = JSON.parse(result);
         }
     });
-    return arr;
+    return Object.values(arr);
 };
 
 //var result = GetObstacleByParkour("Testing");
@@ -73,7 +73,7 @@ export function GetNamesBySessionId(session) {
     return arr;
 };
 
-function GetParkours() {
+export function GetParkours() {
     var arr = Array();
     $.ajax({
         type: "POST",
@@ -87,7 +87,7 @@ function GetParkours() {
     return arr;
 };
 
-function GetAllObstacles() {
+export function GetAllObstacles() {
     var arr = Array();
     $.ajax({
         type: "POST",
