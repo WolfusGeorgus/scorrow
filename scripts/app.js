@@ -68,6 +68,14 @@ function validateParkourForm(ev){
 
 }
 
+$("#sessionAnlegenModalButton").click(function() {
+    $('#parkourModalcloseBtn').trigger("click");
+    $('html, body').animate({
+        scrollTop: $("#teilnehmer").offset().top
+    }, 200);
+});
+
+
 let sessionId = 0;
 
 function validateSessionForm(ev){
@@ -90,7 +98,7 @@ function validateSessionForm(ev){
 }
 
 $("#spielStartenModalButton").click(function() {
-    $('#createSessionSuccessModal').modal('hide');
+    $('#modalcloseBtn').trigger("click");
     $('html, body').animate({
         scrollTop: $("#spiel").offset().top
     }, 200);
