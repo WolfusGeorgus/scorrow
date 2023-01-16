@@ -222,6 +222,9 @@ function targetHit(event) {
                 if(playerMax > playerNum){
                     document.getElementById(`spielerName`).innerText = playerNames[playerNum];
                 }
+                else{
+                    nextObstacle();
+                }
                 event.stopImmediatePropagation();
                 break;
             case 'red':
@@ -234,6 +237,9 @@ function targetHit(event) {
                 if(playerMax > playerNum){
                     document.getElementById(`spielerName`).innerText = playerNames[playerNum];
                 }
+                else{
+                    nextObstacle();
+                }
                 event.stopImmediatePropagation();
                 break;
             case 'gold':
@@ -245,6 +251,9 @@ function targetHit(event) {
                 shoot = "";
                 if(playerMax > playerNum){
                     document.getElementById(`spielerName`).innerText = playerNames[playerNum];
+                }
+                else{
+                    nextObstacle();
                 }
                 event.stopImmediatePropagation();
                 break;
@@ -261,6 +270,12 @@ function targetHit(event) {
                     event.stopImmediatePropagation();
                     break;
                 }
+                if(playerMax > playerNum){
+                    document.getElementById(`spielerName`).innerText = playerNames[playerNum];
+                }
+                else{
+                    nextObstacle();
+                }
                 shootInNum++;
                 hit = false;
                 document.getElementById(`hit${playerNum}`).innerText = shoot;
@@ -268,21 +283,23 @@ function targetHit(event) {
                 break;
         }
     }
-    else if(obstacleNum < obstaclesSpiel.length){
-            obstacleNum++;
-            document.getElementById(`animal`).innerText = obstaclesSpiel[obstacleNum];
-            playerNum = 0;
-            document.getElementById(`spielerName`).innerText = playerNames[playerNum];
-            shoot = "";
-            for(let i = 0; i < playerMax; i++){
-                document.getElementById(`hit${i}`).innerText = shoot;
-                document.getElementById(`point${playerNum}`).innerText = 0;
-            }
-        }
-    
+
+
 
 }
-
+function nextObstacle() {
+    if(obstacleNum < obstaclesSpiel.length){
+        obstacleNum++;
+        document.getElementById(`animal`).innerText = obstaclesSpiel[obstacleNum];
+        playerNum = 0;
+        document.getElementById(`spielerName`).innerText = playerNames[playerNum];
+        shoot = "";
+        for(let i = 0; i < playerMax; i++){
+            document.getElementById(`hit${i}`).innerText = shoot;
+            document.getElementById(`point${playerNum}`).innerText = 0;
+        }
+    }
+}
 function getPoints(shootInNummer, target){
     const firstShootPoints = [20,18,16];
     const secondShootPoints = [14,12,10];
