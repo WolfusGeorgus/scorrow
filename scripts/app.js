@@ -1,4 +1,7 @@
 import * as dbcall from './dbcall.js';
+
+var myChart;
+
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
     var actions = $("#teilnehmerTable td:last-child").html();
@@ -209,7 +212,6 @@ function spielRun() {
     }
 }
 function targetHit(event) {
-    //var graph = Chart.getChart('myChart');
     if(playerMax >= playerNum) {
         switch (event.target.id) {
             case 'blue':
@@ -219,7 +221,8 @@ function targetHit(event) {
                 shootInNum = 1;
                 shoot = "";
                 document.getElementById(`spielerName`).innerText = playerNames[playerNum];
-                dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 3)
+                dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 3);
+                UpdateGraph(sessionID, playerNames[playerNum], point);
                 event.stopImmediatePropagation();
                 break;
             case 'red':
@@ -229,7 +232,8 @@ function targetHit(event) {
                 shootInNum = 1;
                 shoot = "";
                 document.getElementById(`spielerName`).innerText = playerNames[playerNum];
-                dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 2)
+                dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 2);
+                UpdateGraph(sessionID, playerNames[playerNum], point);
                 event.stopImmediatePropagation();
                 break;
             case 'gold':
@@ -239,7 +243,8 @@ function targetHit(event) {
                 shootInNum = 1;
                 shoot = "";
                 document.getElementById(`spielerName`).innerText = playerNames[playerNum];
-                dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 1)
+                dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 1);
+                UpdateGraph(sessionID, playerNames[playerNum], point);
                 event.stopImmediatePropagation();
                 break;
             case 'targetBoard':
@@ -301,7 +306,7 @@ function GetGraph(session){
                     "rgb(139,134,31)", "rgb(150,196,92)", "rgb(161,105,203)", "rgb(0,0,0)"];
 
 
-    let myChart = new Chart("myChart", {
+        myChart = new Chart("myChart", {
         type: "line",
         data: {
             labels: obstacles
@@ -323,4 +328,10 @@ function GetGraph(session){
         myChart.update();
     }
 
+}
+
+function UpdateGraph(session, playername, points){
+    //Ich bekomme ich leider noch null bei playername
+    myChart.data.datasets.find(dataset => dataset.label === playername).data.push(points);
+    myChart.update();
 }
