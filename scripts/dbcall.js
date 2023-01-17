@@ -142,6 +142,35 @@ export function GetShotsByPlayer(session, playername) {
     return Object.values(arr);
 };
 
+export function GetSortedPlayers(session) {
+    var arr = Array();
+    $.ajax({
+        type: "POST",
+        url: 'dbcall.php',
+        async: false,
+        data: {action: "GetSortedPlayers", session: session},
+        success: function (result) {
+            arr = JSON.parse(result);
+        }
+    });
+    return Object.values(arr);
+};
+
+export function GetSortedPoints(session) {
+    var arr = Array();
+    $.ajax({
+        type: "POST",
+        url: 'dbcall.php',
+        async: false,
+        data: {action: "GetSortedPoints", session: session},
+        success: function (result) {
+            arr = JSON.parse(result);
+        }
+    });
+    return Object.values(arr);
+};
+
+
 export function GetSumOfPlayer(session, playername){
     return GetShotsByPlayer(session, playername).reduce((a, b) => a + parseInt(b), 0);
 }
