@@ -392,7 +392,7 @@ function UpdateGraph(session, playername, points){
 }
 
 function UpdateShot(session, playername, obstacle, attempt, circle, points){
-    dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 2);
+    dbcall.makeShot(sessionID, playerNames, obstacle, attempt, circle);
     UpdateGraph(session, playername, points);
 }
 
