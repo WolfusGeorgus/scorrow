@@ -213,59 +213,51 @@ function spielRun() {
     }
 }
 function targetHit(event) {
-    if(playerMax > playerNum) {
+    if(playerMax > playerNum && obstacleNum < obstaclesSpiel.length) {
         switch (event.target.id) {
             case 'blue':
                 point = getPoints(shootInNum, 2);
                 document.getElementById(`point${playerNum}`).innerText = point;
-                dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 3);
+                UpdateShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum,  3, point);
                 playerNum++;
                 shootInNum = 1;
                 shoot = "";
-                document.getElementById(`spielerName`).innerText = playerNames[playerNum];
-                dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 3);
-                UpdateGraph(sessionID, playerNames[playerNum], point);
-                if(playerMax > playerNum){
-                    document.getElementById(`spielerName`).innerText = playerNames[playerNum];
+                if(playerMax == playerNum){
+                    nextObstacle();
                 }
                 else{
-                    nextObstacle();
+                    document.getElementById(`spielerName`).innerText = playerNames[playerNum];
                 }
                 event.stopImmediatePropagation();
                 break;
             case 'red':
                 point = getPoints(shootInNum, 1);
                 document.getElementById(`point${playerNum}`).innerText = point;
-                dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 2)
+                UpdateShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 2, point);
                 playerNum++;
                 shootInNum = 1;
                 shoot = "";
-                document.getElementById(`spielerName`).innerText = playerNames[playerNum];
-                dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 2);
-                UpdateGraph(sessionID, playerNames[playerNum], point);
-                if(playerMax > playerNum){
-                    document.getElementById(`spielerName`).innerText = playerNames[playerNum];
+                if(playerMax == playerNum){
+                    nextObstacle();
                 }
                 else{
-                    nextObstacle();
+                    document.getElementById(`spielerName`).innerText = playerNames[playerNum];
                 }
                 event.stopImmediatePropagation();
                 break;
             case 'gold':
                 point = getPoints(shootInNum, 0);
                 document.getElementById(`point${playerNum}`).innerText = point;
-                dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 1);
+                UpdateShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum,  1, point);
                 playerNum++;
                 shootInNum = 1;
                 shoot = "";
-                document.getElementById(`spielerName`).innerText = playerNames[playerNum];
-                dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 1);
-                UpdateGraph(sessionID, playerNames[playerNum], point);
-                if(playerMax > playerNum){
-                    document.getElementById(`spielerName`).innerText = playerNames[playerNum];
+                //UpdateGraph(sessionID, playerNames[playerNum], point);
+                if(playerMax == playerNum){
+                    nextObstacle();
                 }
                 else{
-                    nextObstacle();
+                    document.getElementById(`spielerName`).innerText = playerNames[playerNum];
                 }
                 event.stopImmediatePropagation();
                 break;
@@ -273,20 +265,25 @@ function targetHit(event) {
                 point = 0;
                 shoot += "X";
                 if (shootInNum == 3) {
-                    dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 0)
+                    UpdateShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum,  0, point)
                     document.getElementById(`hit${playerNum}`).innerText = shoot;
                     playerNum++;
                     shoot = "";
                     shootInNum = 1;
-                    document.getElementById(`spielerName`).innerText = playerNames[playerNum];
+                    if(playerMax == playerNum){
+                        nextObstacle();
+                    }
+                    else{
+                        document.getElementById(`spielerName`).innerText = playerNames[playerNum];
+                    }
                     event.stopImmediatePropagation();
                     break;
                 }
-                if(playerMax > playerNum){
-                    document.getElementById(`spielerName`).innerText = playerNames[playerNum];
+                if(playerMax == playerNum){
+                    nextObstacle();
                 }
                 else{
-                    nextObstacle();
+                    document.getElementById(`spielerName`).innerText = playerNames[playerNum];
                 }
                 shootInNum++;
                 hit = false;
@@ -298,19 +295,37 @@ function targetHit(event) {
 
 
 
+
 }
 function nextObstacle() {
-    if(obstacleNum < obstaclesSpiel.length){
         obstacleNum++;
-        document.getElementById(`animal`).innerText = obstaclesSpiel[obstacleNum];
         playerNum = 0;
-        document.getElementById(`spielerName`).innerText = playerNames[playerNum];
         shoot = "";
-        for(let i = 0; i < playerMax; i++){
-            document.getElementById(`hit${i}`).innerText = shoot;
-            document.getElementById(`point${playerNum}`).innerText = 0;
+
+    setTimeout(function () {
+        if(obstacleNum < obstaclesSpiel.length) {
+            document.getElementById(`animal`).innerText = obstaclesSpiel[obstacleNum];
+            document.getElementById(`spielerName`).innerText = playerNames[playerNum];
+            for (let i = 0; i < playerMax; i++) {
+                document.getElementById(`hit${i}`).innerText = shoot;
+                document.getElementById(`point${i}`).innerText = 0;
+            }
         }
-    }
+        else{
+            blue.removeEventListener('click', targetHit);
+            red.removeEventListener('click', targetHit);
+            gold.removeEventListener('click', targetHit);
+            targetBoard.removeEventListener('click',targetHit)
+            startButton.innerText = "Ergebnis";
+            run = true;
+            for (let i = 0; i < playerMax; i++) {
+                document.getElementById(`point${i}`).innerText = dbcall.GetSumOfPlayer(sessionID, playerNames[i]);
+            }
+        }
+
+        },1000);
+
+
 }
 function getPoints(shootInNummer, target){
     const firstShootPoints = [20,18,16];
@@ -330,7 +345,7 @@ function getPoints(shootInNummer, target){
 
 function GetGraph(session){
     const parkour = dbcall.GetParkourBySession(session);
-    const names =dbcall. GetNamesBySessionId(session);
+    const names =dbcall.GetNamesBySessionId(session);
     const obstacles = dbcall.GetObstacleByParkour(parkour);
     const points = names.map(name => dbcall.GetShotsByPlayer(session, name));
     const colors = ["rgb(167,32,32)", "rgb(155, 55, 102)", "rgb(33, 102, 102)", "rgb(155, 102, 33)",
@@ -340,15 +355,16 @@ function GetGraph(session){
         myChart = new Chart("myChart", {
         type: "line",
         data: {
-            labels: obstacles
+            labels: [""].concat(obstacles)
         },
         options: {
             legend: {display: true},
             scales: {
                 y: {
-                    max: 20,
+                    max: 22,
                     min: 0,
                     ticks: {
+                        min: 0,
                         stepSize: 1
                     }
                 }
@@ -360,7 +376,7 @@ function GetGraph(session){
     for (let i = 0; i < names.length; i++) {
         let newDataset = {
             label: names[i],
-            data: points[i],
+            data: [0].concat(points[i]),
             borderColor: colors[i],
             fill: false
         }
@@ -374,3 +390,9 @@ function UpdateGraph(session, playername, points){
     myChart.data.datasets.find(dataset => dataset.label === playername).data.push(points);
     myChart.update();
 }
+
+function UpdateShot(session, playername, obstacle, attempt, circle, points){
+    dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 2);
+    UpdateGraph(session, playername, points);
+}
+

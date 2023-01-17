@@ -142,3 +142,6 @@ export function GetShotsByPlayer(session, playername) {
     return Object.values(arr);
 };
 
+export function GetSumOfPlayer(session, playername){
+    return GetShotsByPlayer(session, playername).reduce((a, b) => a + parseInt(b), 0);
+}
