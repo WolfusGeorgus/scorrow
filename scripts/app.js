@@ -64,6 +64,17 @@ function validateParkourForm(ev){
             return this.value;
         }).get();
         dbcall.CreateParkour(parkourName, location, obstacles);
+        ev.preventDefault();
+        var parkours = dbcall.GetParkours();
+        let i = 0;
+        document.getElementById("parkourDropdown").innerHTML = "";
+        for(var key in parkours){
+            if (i = 0){
+                document.getElementById("parkourDropdown").innerHTML += "<br><option id=" + key + " value='" + key + "' selected>"+ parkours[key] + "</option>";
+            }else{
+                document.getElementById("parkourDropdown").innerHTML += "<br><option id=" + key + " value='" + key + "'>"+ parkours[key] + "</option>";
+            }
+        }
     }
     else{
         ev.preventDefault();
@@ -358,6 +369,8 @@ function GetGraph(session){
             labels: [""].concat(obstacles)
         },
         options: {
+            responsive: true,
+            maintainAspectRatio: false,
             legend: {display: true},
             scales: {
                 y: {
@@ -370,7 +383,9 @@ function GetGraph(session){
                 }
             }
         }
+
     });
+    myChart.scales.x[0].ticks.max = 0.5;
 
 //Add Datasets
     for (let i = 0; i < names.length; i++) {
@@ -392,7 +407,7 @@ function UpdateGraph(session, playername, points){
 }
 
 function UpdateShot(session, playername, obstacle, attempt, circle, points){
-    dbcall.makeShot(sessionID, playerNames, obstacle, attempt, circle);
+    dbcall.makeShot(session, playername, obstacle, attempt, circle);
     UpdateGraph(session, playername, points);
 }
 
