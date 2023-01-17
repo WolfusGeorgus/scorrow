@@ -64,6 +64,17 @@ function validateParkourForm(ev){
             return this.value;
         }).get();
         dbcall.CreateParkour(parkourName, location, obstacles);
+        ev.preventDefault();
+        var parkours = dbcall.GetParkours();
+        let i = 0;
+        document.getElementById("parkourDropdown").innerHTML = "";
+        for(var key in parkours){
+            if (i = 0){
+                document.getElementById("parkourDropdown").innerHTML += "<br><option id=" + key + " value='" + key + "' selected>"+ parkours[key] + "</option>";
+            }else{
+                document.getElementById("parkourDropdown").innerHTML += "<br><option id=" + key + " value='" + key + "'>"+ parkours[key] + "</option>";
+            }
+        }
     }
     else{
         ev.preventDefault();
