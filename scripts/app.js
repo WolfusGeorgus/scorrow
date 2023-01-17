@@ -369,6 +369,8 @@ function GetGraph(session){
             labels: [""].concat(obstacles)
         },
         options: {
+            responsive: true,
+            maintainAspectRatio: false,
             legend: {display: true},
             scales: {
                 y: {
@@ -381,7 +383,9 @@ function GetGraph(session){
                 }
             }
         }
+
     });
+    myChart.scales.x[0].ticks.max = 0.5;
 
 //Add Datasets
     for (let i = 0; i < names.length; i++) {
@@ -403,7 +407,7 @@ function UpdateGraph(session, playername, points){
 }
 
 function UpdateShot(session, playername, obstacle, attempt, circle, points){
-    dbcall.makeShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 2);
+    dbcall.makeShot(session, playername, obstacle, attempt, circle);
     UpdateGraph(session, playername, points);
 }
 
