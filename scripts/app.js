@@ -326,6 +326,8 @@ function GetGraph(session){
             labels: obstacles
         },
         options: {
+            responsive: true,
+            maintainAspectRatio: false,
             legend: {display: true},
             scales: {
                 y: {
