@@ -26,13 +26,21 @@ if (isset($_POST['action'])) {
         CreateSession($_POST['session'], $_POST['parkour'], json_decode($_POST["users"]));
     }
     if ($_POST['action'] == "MakeShot") {
-        MakeShot($_POST['session'], $_POST['playername'], $_POST['obstaclename'], $_POST['attempt'],$_POST['circle']);
+        MakeShot($_POST['session'], $_POST['playername'], $_POST['obstaclename'], $_POST['attempt'], $_POST['circle']);
     }
     if ($_POST['action'] == "GetShotsByPlayer") {
         GetShotsByPlayer($_POST['session'], $_POST['playername']);
     }
+    if ($_POST['action'] == "GetSortedPoints") {
+        GetSortedPoints($_POST['session']);
+    }
+    if ($_POST['action'] == "GetSortedPlayers") {
+        GetSortedPlayers($_POST['session']);
+    }
+
 }
-function ConnectToDb(){
+function ConnectToDb()
+{
     $servername = "localhost";
     $username = "root";
     $password = "";
@@ -42,11 +50,11 @@ function ConnectToDb(){
 // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
-    }
-    else{
+    } else {
         return $conn;
     }
 }
+
 function GetAllObstacles()
 {
     $conn = ConnectToDb();
@@ -88,7 +96,8 @@ function GetParkour()
     echo json_encode($Parkours);
 }
 
-function GetParkourBySession($session) {
+function GetParkourBySession($session)
+{
 
     $conn = ConnectToDb();
 
@@ -223,7 +232,8 @@ function MakeShot($session, $playername, $obstaclename, $attempt, $circle)
     $conn->close();
 }
 
-function GetShotsByPlayer($session, $playername){
+function GetShotsByPlayer($session, $playername)
+{
     $conn = ConnectToDb();
 
     $sql = "select points from shot sh, score sc, parkour_obstacle po, player p
@@ -240,6 +250,53 @@ function GetShotsByPlayer($session, $playername){
         // output data of each row
         while ($row = $result->fetch_assoc()) {
             $points[] = $row["points"];
+
+        }
+    } else {
+        echo "0 results";
+    }
+    $conn->close();
+    echo json_encode($points);
+}
+
+function GetSortedPoints($session)
+{
+    $conn = ConnectToDb();
+
+    $sql = "select sum(points) points from shot sh, score s 
+                where session_id = '$session' and sh.score_id = s.score_id
+                group by player_id order by points desc;";
+    $result = $conn->query($sql);
+    $points = array();
+
+    if ($result->num_rows > 0) {
+        // output data of each row
+        while ($row = $result->fetch_assoc()) {
+            $points[] = $row["points"];
+
+        }
+    } else {
+        echo "0 results";
+    }
+    $conn->close();
+    echo json_encode($points);
+}
+
+function GetSortedPlayers($session)
+{
+    $conn = ConnectToDb();
+
+    $sql = "select nickname from shot sh, score s, player p 
+            where sh.session_id = '$session' and sh.score_id = s.score_id and p.player_id = sh.player_id
+            group by sh.player_id order by sum(points) desc;";
+
+    $result = $conn->query($sql);
+    $points = array();
+
+    if ($result->num_rows > 0) {
+        // output data of each row
+        while ($row = $result->fetch_assoc()) {
+            $points[] = $row["nickname"];
 
         }
     } else {
