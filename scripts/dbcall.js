@@ -1,5 +1,5 @@
+export function CheckParkourName(ParkourName) {
 
-function CheckParkourName(ParkourName) {
     let isUsed = false;
     $.ajax({
         type: "POST",
@@ -7,16 +7,15 @@ function CheckParkourName(ParkourName) {
         async: false,
         data: {action: "CheckParkourName", name: ParkourName},
         success: function (result) {
-            if (result == "used"){
+            if (result == "used") {
                 isUsed = true;
             }
         }
     });
     return isUsed;
 };
-//CheckParkourName("Easy Parkour");
 
-function CreateParkour(ParkourName, locationName, obstacleNames) {
+export function CreateParkour(ParkourName, locationName, obstacleNames) {
     $.ajax({
         type: "POST",
         url: 'dbcall.php',
@@ -26,9 +25,8 @@ function CreateParkour(ParkourName, locationName, obstacleNames) {
         }
     });
 };
-//CreateParkour("Hello", new Array("Schaf", "Ziege"));
 
-function CreateSession(sessionName, parkourName, userNames) {
+export function CreateSession(sessionName, parkourName, userNames) {
     var sessionId;
     $.ajax({
         type: "POST",
@@ -42,7 +40,7 @@ function CreateSession(sessionName, parkourName, userNames) {
     return sessionId;
 };
 
-function GetObstacleByParkour(parkourName) {
+export function GetObstacleByParkour(parkourName) {
     var arr = Array();
     $.ajax({
         type: "POST",
@@ -53,29 +51,24 @@ function GetObstacleByParkour(parkourName) {
             arr = JSON.parse(result);
         }
     });
-    return arr;
+    return Object.values(arr);
 };
 
-//var result = GetObstacleByParkour("Testing");
-//for (var key in result) {
-//    document.getElementById("testing").innerHTML += key + ": " + result[key] + "<br>";
-//}
-
-function GetNamesBySessionId(sessionId) {
+export function GetNamesBySessionId(session) {
     var arr = Array();
     $.ajax({
         type: "POST",
         url: 'dbcall.php',
         async: false,
-        data: {action: "GetNamesBySessionId", sessionId: sessionId},
+        data: {action: "GetNamesBySessionId", session: session},
         success: function (result) {
             arr = JSON.parse(result);
         }
     });
-    return arr;
-};
+    return Object.values(arr);
+}
 
-function GetParkours() {
+export function GetParkours() {
     var arr = Array();
     $.ajax({
         type: "POST",
@@ -86,11 +79,24 @@ function GetParkours() {
             arr = JSON.parse(result);
         }
     });
-    return arr;
+    return Object.values(arr);
 };
-//GetParkours();
 
-function GetAllObstacles() {
+export function GetParkourBySession(session) {
+    var parkour = "test";
+    $.ajax({
+        type: "POST",
+        url: 'dbcall.php',
+        async: false,
+        data: {action: "GetParkourBySession", session: session},
+        success: function (result) {
+            parkour = result;
+        }
+    });
+    return parkour;
+};
+
+export function GetAllObstacles() {
     var arr = Array();
     $.ajax({
         type: "POST",
@@ -101,50 +107,70 @@ function GetAllObstacles() {
             arr = JSON.parse(result);
         }
     });
-    return arr;
+    return Object.values(arr);
 };
 
-function makeShot(sessionId, playername, obstaclename, attempt, circle) {
+export function makeShot(sessionId, playername, obstaclename, attempt, circle) {
     $.ajax({
         type: "POST",
         url: 'dbcall.php',
         async: false,
-        data: {action: "MakeShot", session: sessionId, playername: playername, obstaclename: obstaclename, attempt: attempt, circle: circle},
+        data: {
+            action: "MakeShot",
+            session: sessionId,
+            playername: playername,
+            obstaclename: obstaclename,
+            attempt: attempt,
+            circle: circle
+        },
         success: function (result) {
         }
     });
 };
 
-function InitiateGeorgTesting(){
-    document.addEventListener('submit', validateForm);
-    var obstacles = GetAllObstacles();
-
-    for (var key in obstacles) {
-        document.getElementById("select").innerHTML += "<option value=" + obstacles[key] + ">" + obstacles[key] + "</option>";// key + ": " + obstacles[key] + "<br>";
-    };
-
-    new DualListbox('.select1',{
-        addEvent: function(value) {
-            console.log(value);
-        },
-        removeEvent: function(value) {
-            console.log(value);
-        },
-        availableTitle: 'Available options',
-        selectedTitle: 'I want to use this',
-        addButtonText: '>',
-        removeButtonText: '<',
-        addAllButtonText: '>>',
-        removeAllButtonText: '<<'
+export function GetShotsByPlayer(session, playername) {
+    var arr = Array();
+    $.ajax({
+        type: "POST",
+        url: 'dbcall.php',
+        async: false,
+        data: {action: "GetShotsByPlayer", session: session, playername: playername},
+        success: function (result) {
+            arr = JSON.parse(result);
+        }
     });
+    return Object.values(arr);
+};
 
-    let names = Array("Georg", "Peter");
-    let test = CreateSession("Hi", "Easy Parkour", names);
-    let x = 1;
+export function GetSortedPlayers(session) {
+    var arr = Array();
+    $.ajax({
+        type: "POST",
+        url: 'dbcall.php',
+        async: false,
+        data: {action: "GetSortedPlayers", session: session},
+        success: function (result) {
+            arr = JSON.parse(result);
+        }
+    });
+    return Object.values(arr);
+};
 
+export function GetSortedPoints(session) {
+    var arr = Array();
+    $.ajax({
+        type: "POST",
+        url: 'dbcall.php',
+        async: false,
+        data: {action: "GetSortedPoints", session: session},
+        success: function (result) {
+            arr = JSON.parse(result);
+        }
+    });
+    return Object.values(arr);
+};
+
+
+export function GetSumOfPlayer(session, playername){
+    return GetShotsByPlayer(session, playername).reduce((a, b) => a + parseInt(b), 0);
 }
-
-//var result = GetAllObstacles();
-//for (var key in result) {
-//    document.getElementById("testing").innerHTML += key + ": " + result[key] + "<br>";
-//}
