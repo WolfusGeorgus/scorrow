@@ -73,6 +73,7 @@
           <li><a href="#teilnehmer" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Session anlegen</span></a></li>
           <li><a href="#spiel" class="nav-link scrollto"><i class="bx bx-server"></i> <span>Spiel starten</span></a></li>
           <li><a href="#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Kontakt</span></a></li>
+          <li><a href="login.html" class="nav-link scrollto"><i class="bi bi-box-arrow-left"></i> <span>Ausloggen</span></a></li>
         </ul>
       </nav><!-- .nav-menu -->
     </div>
@@ -80,9 +81,9 @@
 
 <!-- ======= Hero Section ======= -->
 <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
+    <h1 class="hero-container ">Scorrow</h1>
     <div class="hero-container" data-aos="fade-in">
-        <h1>Scorrow</h1>
-        <p>Wir <span class="typed" data-typed-items="erreichen das Ziel!"></span></p>
+        <p><span class="typed" data-typed-items="Willkommen [benutzername]!"></span></p>
     </div>
 </section><!-- End Hero -->
 
@@ -355,12 +356,12 @@
             <div class="container">
                 <form action="forms/contact.php" method="post" role="form" class="php-email-form">
                     <div class="row">
-                        <div class="col-3">
+                        <div class="div1">
                             <label for="name">Parkour</label>
                             <select id="parkourDropdown" class="form-select" aria-label="Default select example">
                             </select>
                         </div>
-                        <div class="col-3">
+                        <div class="div2">
                             <label for="name">Session ID</label><br>
                             <input id="sessionId" value="" disabled>
                         </div>
@@ -476,11 +477,12 @@
     </section>
     <!-- ======= Spiel Starten Section ======= -->
     <section id="spiel" class="services">
-        <div class="container">
+        <div class="section-title">
+            <h2>Spiel starten</h2>
+        </div>
+        <div id="" class="container">
 
-            <div class="section-title">
-                <h2>Spiel starten</h2>
-            </div>
+            
 
             <div id="targetBoard" class="target">
                 <div id="blue" class="blue-outer"></div>
@@ -488,37 +490,34 @@
                 <div id="gold" class="gold-outer"></div>
             </div>
 
-            <table class="styled-table">
-                <thead>
-                <tr>
-                    <td id="spielerName">
-
-                    </td>
-                    <td id="animal">
-
-                    </td>
-                    <td>
-                        <button id="startButton" class="btn btn-dark btn-lg">Start</button>
-
-                    </td>
-                </tr>
-                </thead>
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Shoot</th>
-                    <th>Points</th>
-                </tr>
-                </thead>
-                <tbody id="scoreBoard">
-
-                <!-- and so on... -->
-                </tbody>
-            </table>
-            <div>
-                <p></p>
-            </div>
+            
         </div>
+        <table class="styled-table">
+            <thead>
+            <tr>
+                <td id="spielerName">
+
+                </td>
+                <td id="animal">
+
+                </td>
+                <td>
+                    <button id="startButton" class="btn btn-dark btn-lg">Start</button>
+
+                </td>
+            </tr>
+            </thead>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Shoot</th>
+                <th>Points</th>
+            </tr>
+            </thead>
+            <tbody id="scoreBoard">
+
+            </tbody>
+        </table>
     </section><!-- End Services Section -->
     <section id="graphs">
         <div class="container">
