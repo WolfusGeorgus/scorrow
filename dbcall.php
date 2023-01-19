@@ -41,6 +41,13 @@ if (isset($_POST['action'])) {
 }
 function ConnectToDb()
 {
+    /*
+    https://scorrow.000webhostapp.com/
+    $servername = "localhost";
+    $username = "id20167235_admin";
+    $password = "qYQdBAx/#2T8gQ/N";
+    $dbname = "id20167235_scorrow";
+     */
     $servername = "localhost";
     $username = "root";
     $password = "";
@@ -80,7 +87,7 @@ function GetParkour()
 {
     $conn = ConnectToDb();
 
-    $sql = "SELECT * from Parkour";
+    $sql = "SELECT * from parkour";
     $result = $conn->query($sql);
     $Parkours = array();
 
@@ -164,7 +171,7 @@ function CheckParkourName($name)
 {
     $conn = ConnectToDb();
 
-    $sql = "SELECT * from Parkour where name = '$name'";
+    $sql = "SELECT * from parkour where name = '$name'";
     $result = $conn->query($sql);
 
     if ($result->num_rows == 0) {
@@ -179,7 +186,7 @@ function CreateParkour($name, $location, $obstaclenames)
 {
     $conn = ConnectToDb();
 
-    mysqli_query($conn, "INSERT into Parkour (name, location) values ('$name', '$location')");
+    mysqli_query($conn, "INSERT into parkour (name, location) values ('$name', '$location')");
     $last_id = $conn->insert_id;
 
     $ids_array = array();
@@ -191,7 +198,7 @@ function CreateParkour($name, $location, $obstaclenames)
     }
 
     for ($i = 0; $i < count($ids_array); $i++) {
-        mysqli_query($conn, "INSERT into Parkour_obstacle (Parkour_id, obstacle_id, obstacle_nr) values ('$last_id', '$ids_array[$i]', '$i')");
+        mysqli_query($conn, "INSERT into parkour_obstacle (parkour_id, obstacle_id, obstacle_nr) values ('$last_id', '$ids_array[$i]', '$i')");
     }
     $conn->close();
 }
@@ -307,3 +314,4 @@ function GetSortedPlayers($session)
 }
 
 ?>
+

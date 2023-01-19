@@ -90,7 +90,7 @@ export function GetParkourBySession(session) {
         async: false,
         data: {action: "GetParkourBySession", session: session},
         success: function (result) {
-            parkour = result;
+            parkour = result.replace(/\r?\n|\r/g, "");;
         }
     });
     return parkour;
