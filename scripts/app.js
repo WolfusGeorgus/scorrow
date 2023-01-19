@@ -190,6 +190,8 @@ function spielStarten() {
 
 function spielRun() {
     GetGraph(sessionID);
+    document.getElementById("tracker").style.display = "block";
+;
     if (run) {
         blue.addEventListener('click', targetHit);
         red.addEventListener('click', targetHit);
@@ -405,6 +407,7 @@ function UpdateShot(session, playername, obstacle, attempt, circle, points) {
 }
 
 function GetResults(session) {
+    document.getElementById("gameresults").style.display = "block";
     const ctx = document.getElementById('podium');
     let delayed;
 
