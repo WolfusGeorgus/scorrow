@@ -1203,9 +1203,9 @@ table.table td .add {
 }
 
 .form-control option {
-     padding: 10px;
-     border-bottom: 1px solid #efefef;
-   }
+  padding: 10px;
+  border-bottom: 1px solid #efefef;
+}
 /*-----------------------------------
     #Target
 -------------------------------------    */
@@ -1307,7 +1307,7 @@ table.table td .add {
 Table
 -------------------------------------- */
 .styled-table {
-  float: right;
+  float:right;
   border-collapse: collapse;
   margin: 25px 0;
   font-size: 0.9em;
@@ -1346,3 +1346,47 @@ table, th, td {
   border:1px solid black;
   border-collapse: collapse;
 }
+
+
+.row{
+  display:inline-flex;
+  flex-wrap:wrap;
+}
+.flex-direction{
+  flex-direction:row;
+}
+.div1{
+  width:165px;
+  height:132px;
+}
+
+.div2{
+  background-color:#fff;
+  width:314px;
+  height:132px;
+}
+@media screen and (min-width: 500px){
+  .styled-table {
+    float:left;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .flex-direction{
+    flex-direction:column;
+  }
+  .div1{
+    width:202px;
+    height:131px;
+    border-right:none;
+  }
+  .div2{
+    width:202px;
+    height:107px;
+  }
+  .div2 span{
+    line-height:107px;
+  }
+
+}
+

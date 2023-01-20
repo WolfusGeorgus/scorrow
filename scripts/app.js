@@ -190,6 +190,8 @@ function spielStarten() {
 
 function spielRun() {
     GetGraph(sessionID);
+    document.getElementById("tracker").style.display = "block";
+;
     if (run) {
         blue.addEventListener('click', targetHit);
         red.addEventListener('click', targetHit);
@@ -352,8 +354,9 @@ function GetGraph(session) {
     const names = dbcall.GetNamesBySessionId(session);
     const obstacles = dbcall.GetObstacleByParkour(parkour);
     const points = names.map(name => dbcall.GetShotsByPlayer(session, name));
-    const colors = ["rgb(167,32,32)", "rgb(155, 55, 102)", "rgb(33, 102, 102)", "rgb(155, 102, 33)",
-        "rgb(139,134,31)", "rgb(150,196,92)", "rgb(161,105,203)", "rgb(0,0,0)"];
+    const colors = ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)'];
+        //["rgb(167,32,32)", "rgb(155, 55, 102)", "rgb(33, 102, 102)", "rgb(155, 102, 33)",
+        //"rgb(139,134,31)", "rgb(150,196,92)", "rgb(161,105,203)", "rgb(0,0,0)"];
 
 
     myChart = new Chart("myChart", {
@@ -405,6 +408,7 @@ function UpdateShot(session, playername, obstacle, attempt, circle, points) {
 }
 
 function GetResults(session) {
+    document.getElementById("gameresults").style.display = "block";
     const ctx = document.getElementById('podium');
     let delayed;
 
