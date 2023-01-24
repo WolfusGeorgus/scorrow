@@ -1,3 +1,5 @@
+import * as dbcall from './dbcall.js';
+
 window.onload = function () {
     validateReg();
 }
@@ -18,6 +20,7 @@ function validateReg() {
         }else if(psWord < 10){
             alert("Password")
         } else {
+            dbcall.CreateUser(vName, nName, bName, psWord);
             alert("Die Registrierung wurde abgeschlossen.");
             location.href = "login.html";
         }

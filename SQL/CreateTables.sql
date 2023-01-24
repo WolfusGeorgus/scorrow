@@ -86,4 +86,22 @@ create table shot
 	constraint shotfk4 foreign key (session_id) references session (session_id)
 );
     
+create table user
+(
+	user_id int unsigned not null auto_increment,
+    primary key (user_id),
+    firstname varchar(30),
+    lastname varchar(30),
+    nickname varchar(30) unique,
+    password varchar(100)
+);
+
+create table user_parkour
+(
+	user_id int unsigned not null,
+    parkour_id int unsigned not null,
+    primary key (user_id, parkour_id),
+    foreign key (user_id) references user (user_id),
+    foreign key (parkour_id) references parkour (parkour_id)
+);
 

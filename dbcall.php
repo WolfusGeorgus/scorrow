@@ -25,6 +25,15 @@ if (isset($_POST['action'])) {
     if ($_POST['action'] == "CreateSession") {
         CreateSession($_POST['session'], $_POST['parkour'], json_decode($_POST["users"]));
     }
+    if ($_POST['action'] == "CreateUser") {
+        CreateUser($_POST['firstname'], $_POST['lastname'], $_POST['nickname'], $_POST['password']);
+    }
+    if ($_POST['action'] == "LoginUser") {
+        LoginUser($_POST['nickname'], $_POST['password']);
+    }
+    if ($_POST['action'] == "GetUserByNickname") {
+        GetUserByNickname($_POST['nickname']);
+    }
     if ($_POST['action'] == "MakeShot") {
         MakeShot($_POST['session'], $_POST['playername'], $_POST['obstaclename'], $_POST['attempt'], $_POST['circle']);
     }
@@ -223,6 +232,48 @@ function CreateSession($session, $parkour, $users)
 
     echo $session;
     $conn->close();
+}
+
+function CreateUser($firstname, $lastname, $nickname, $password)
+{
+    $conn = ConnectToDb();
+
+    $hased_pw = crypt($password, 'Daddy');
+    //Add user
+    mysqli_query($conn, "INSERT into user (firstname, lastname, nickname, password) values ('$firstname', '$lastname', '$nickname', '$hased_pw')");
+
+    $conn->close();
+}
+
+function LoginUser($nickname, $password)
+{
+    $conn = ConnectToDb();
+//query the database for the user
+    $query = "SELECT password FROM users WHERE nickname = '$nickname'";
+    $result = mysqli_query($conn, $query);
+
+    //fetch the hashed password from the database
+    $dataset = mysqli_fetch_assoc($result);
+    $hashed_password = $dataset['password'];
+
+    //verify the inputted password matches the hashed password
+    if(password_verify($password, $hashed_password)) {
+        echo $dataset["nickname"];
+    } else {
+        echo 'false';
+    }
+
+    $conn->close();
+}
+
+function GetUserByNickname($nickname){
+    $conn = ConnectToDb();
+
+    $sql = "SELECT * FROM user where nickname = '$nickname'";
+    $result = $conn->query($sql);
+
+    $conn->close();
+    echo json_encode($result);
 }
 
 function MakeShot($session, $playername, $obstaclename, $attempt, $circle)

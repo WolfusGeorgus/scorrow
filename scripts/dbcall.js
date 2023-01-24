@@ -26,6 +26,45 @@ export function CreateParkour(ParkourName, locationName, obstacleNames) {
     });
 };
 
+export function CreateUser(firstname, lastname, nickname, password) {
+    $.ajax({
+        type: "POST",
+        url: 'dbcall.php',
+        async: false,
+        data: {action: "CreateUser", firstname: firstname, lastname: lastname, nickname: nickname, password: password},
+        success: function (result) {
+        }
+    });
+};
+
+export function LoginUser(nickname, password) {
+    var nickname;
+    $.ajax({
+        type: "POST",
+        url: 'dbcall.php',
+        async: false,
+        data: {action: "LoginUser",  nickname: nickname, password: password},
+        success: function (result) {
+            nickname = result;
+        }
+    });
+    return nickname;
+};
+
+export function GetUserByNickname($nickname) {
+    var arr = Array();
+    $.ajax({
+        type: "POST",
+        url: 'dbcall.php',
+        async: false,
+        data: {action: "GetUserByNickname", nickname: nickname},
+        success: function (result) {
+            arr = JSON.parse(result);
+        }
+    });
+    return Object.values(arr);
+}
+
 export function CreateSession(sessionName, parkourName, userNames) {
     var sessionId;
     $.ajax({
