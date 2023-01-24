@@ -1365,28 +1365,25 @@ table, th, td {
   width:314px;
   height:132px;
 }
-@media screen and (min-width: 500px){
-  .styled-table {
-    float:left;
+
+@media only screen and (max-width: 600px) {
+  #targetBoard {
+    width: 350px;
+    height: 350px;
+
+  }
+  #targerbody {
+    display: grid;
+    place-items: center;
+  }
+  #board{
+    display: grid;
+    place-items: center;
+  }
+  table {
+    font-size: 12px; /* Reduce font size for smaller screens */
+  }
+  th, td {
+    padding: 5px; /* Reduce cell padding for smaller screens */
   }
 }
-
-@media screen and (max-width: 500px) {
-  .flex-direction{
-    flex-direction:column;
-  }
-  .div1{
-    width:202px;
-    height:131px;
-    border-right:none;
-  }
-  .div2{
-    width:202px;
-    height:107px;
-  }
-  .div2 span{
-    line-height:107px;
-  }
-
-}
-
