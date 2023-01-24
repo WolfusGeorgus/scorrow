@@ -7,6 +7,9 @@ if (isset($_POST['action'])) {
     if ($_POST['action'] == "GetParkour") {
         GetParkour();
     }
+    if ($_POST['action'] == "GetParkourByUserId") {
+        GetParkourByUserId($_POST["userid"]);
+    }
     if ($_POST['action'] == "GetParkourBySession") {
         GetParkourBySession($_POST['session']);
     }
@@ -20,7 +23,7 @@ if (isset($_POST['action'])) {
         CheckParkourName($_POST['name']);
     }
     if ($_POST['action'] == "CreateParkour") {
-        CreateParkour($_POST['name'], $_POST['location'], json_decode($_POST["ids"]));
+        CreateParkour($_POST['name'], $_POST['location'], json_decode($_POST["ids"]), $_POST["userid"]);
     }
     if ($_POST['action'] == "CreateSession") {
         CreateSession($_POST['session'], $_POST['parkour'], json_decode($_POST["users"]));
@@ -134,6 +137,29 @@ function GetParkourBySession($session)
     echo $parkour;
 }
 
+function GetParkourByUserId($userid)
+{
+
+    $conn = ConnectToDb();
+
+    $intUserId = intval($userid);
+    $sql = "select p.name from parkour p, user_parkour up where up.user_id = '$intUserId'
+            and p.parkour_id = up.parkour_id;";
+    $result = $conn->query($sql);
+    $parkour = Array();
+
+    if ($result->num_rows > 0) {
+        // output data of each row
+        while ($row = $result->fetch_assoc()) {
+            $parkour[] = $row["name"];
+        }
+    } else {
+        echo "0 results";
+    }
+    $conn->close();
+    echo json_encode($parkour);
+}
+
 function GetObstacleByParkour($parkourName)
 {
     $conn = ConnectToDb();
@@ -191,12 +217,16 @@ function CheckParkourName($name)
     $conn->close();
 }
 
-function CreateParkour($name, $location, $obstaclenames)
+function CreateParkour($name, $location, $obstaclenames, $userid)
 {
     $conn = ConnectToDb();
 
     mysqli_query($conn, "INSERT into parkour (name, location) values ('$name', '$location')");
     $last_id = $conn->insert_id;
+
+    $intUserId = intval($userid);
+    $sql = "insert into user_parkour(user_id, parkour_id) values ('$intUserId', '$last_id')";
+    $result = $conn->query($sql);
 
     $ids_array = array();
     $sql = "SELECT * from obstacle where name in ('" . implode("','", $obstaclenames) . "')";
@@ -258,7 +288,7 @@ function LoginUser($nickname, $password)
 
     //verify the inputted password matches the hashed password
     if(password_verify($password, $hashed_password)) {
-        echo $dataset["nickname"];
+        echo "true";
     } else {
         echo 'false';
     }
@@ -271,9 +301,10 @@ function GetUserByNickname($nickname){
 
     $sql = "SELECT * FROM user where nickname = '$nickname'";
     $result = $conn->query($sql);
+    $user = mysqli_fetch_assoc($result);
 
     $conn->close();
-    echo json_encode($result);
+    echo json_encode($user);
 }
 
 function MakeShot($session, $playername, $obstaclename, $attempt, $circle)

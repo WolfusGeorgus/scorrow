@@ -4,7 +4,7 @@ insert into obstacle (name) values
 	("Schaf"), ("Ziege"), ("Pferd"), ("Löwe"), ("Tiger"), ("Hahn"), ("Bär"), ("Elefant"), ("Reh"), ("Falke"), ("Nashorn"), ("Zebra"), ("Antilope"), ("Fuchs"), ("Wolf"), ("Dachs"), ("Wildschwein"), ("Fisch");
 
 -- insert Parkour
-insert into arkour 
+insert into parkour 
 	(name) values ("Easy Parkour"), ("Medium Parkour");
     
 insert into parkour_obstacle (parkour_id, obstacle_id, obstacle_nr) values

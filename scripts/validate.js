@@ -1,24 +1,25 @@
 import * as dbcall from './dbcall.js';
 
 window.onload = function () {
-    validateReg();
-    validateLog();
+    if (window.location.href.includes("login")){
+        validateLog();
+    }else{
+        validateReg();
+    }
 }
+
 function validateLog() {
     document.getElementById("loginBTN").addEventListener("click", function (event) {
         event.preventDefault(); // prevent the form from being submitted
         var bName = document.getElementById("bName").value;
         var psWord = document.getElementById("passWort").value;
 
-        if (bName === "" || psWord === "" ) {
+        if (bName === "" || psWord === "") {
             alert("Bitte alle Felder ausfüllen!");
-        } else if (true == true) {
-            alert("Die Kennwörter stimmen nicht überein!");
-        } else if (psWord < 5) {
-            alert("Das Passwort muss mindestens 5 Zeichen lang sein!")
+        } else if (dbcall.LoginUser(bName, psWord) == "false") {
+            alert("Falsche Daten!");
         } else {
-            dbcall.CreateUser(vName, nName, bName, psWord);
-            location.href = "index.html";
+            location.href = "index.html?User=" + bName;
         }
     });
 
@@ -38,7 +39,7 @@ function validateReg() {
             alert("Bitte alle Felder ausfüllen!");
         } else if (psWord !== bPsWord) {
             alert("Die Kennwörter stimmen nicht überein!");
-        }else if(psWord < 5){
+        } else if (psWord < 5) {
             alert("Das Passwort muss mindestens 5 Zeichen lang sein!")
         } else {
             dbcall.CreateUser(vName, nName, bName, psWord);
@@ -46,7 +47,6 @@ function validateReg() {
             location.href = "login.html";
         }
     });
-
 
 
 }

@@ -37,7 +37,6 @@
 
     <!-- Chart JS -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <!-- =======================================================
     * Template Name: iPortfolio - v3.9.1
     * Template URL: https://bootstrapmade.com/iportfolio-bootstrap-portfolio-websites-template/
@@ -83,7 +82,13 @@
 <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
     <h1 class="hero-container ">Scorrow</h1>
     <div class="hero-container" data-aos="fade-in">
-        <p><span class="typed" data-typed-items="Willkommen [benutzername]!"></span></p>
+        <p><span  id="WelcomeUser" class="typed" data-typed-items=""></span></p>
+        <script>
+            let url = new URL(window.location.href)
+            let params = new URLSearchParams(url.search);
+            let name = params.get('User');
+            document.getElementById('WelcomeUser').setAttribute('data-typed-items', 'Willkommen ' + name + '!');
+        </script>
     </div>
 </section><!-- End Hero -->
 
@@ -393,9 +398,9 @@
                                         </thead>
                                         <tbody>
                                         <tr>
-                                            <td>Max</td>
-                                            <td>Mustermann</td>
-                                            <td>MaxM1998</td>
+                                            <td id="firstname"></td>
+                                            <td id="lastname"></td>
+                                            <td id="nickname"></td>
                                             <td>
                                                 <a class="add" title="Add" data-toggle="tooltip"><i
                                                         class="material-icons">&#xE03B;</i></a>
