@@ -141,11 +141,12 @@ window.onload = function () {
     let url = new URL(window.location.href)
     let params = new URLSearchParams(url.search);
     let user_nickname = params.get('User');
-
-    user = dbcall.GetUserByNickname(user_nickname);
-    if (user == null){
+    if (user_nickname == null){
         window.location.href = "./login.html";
     }
+
+    user = dbcall.GetUserByNickname(user_nickname);
+
     InsertUser();
 
     for (var key in obstacles) {
