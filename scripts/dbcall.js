@@ -15,12 +15,12 @@ export function CheckParkourName(ParkourName) {
     return isUsed;
 };
 
-export function CreateParkour(ParkourName, locationName, obstacleNames) {
+export function CreateParkour(ParkourName, locationName, obstacleNames, userid) {
     $.ajax({
         type: "POST",
         url: 'dbcall.php',
         async: false,
-        data: {action: "CreateParkour", name: ParkourName, location: locationName, ids: JSON.stringify(obstacleNames)},
+        data: {action: "CreateParkour", name: ParkourName, location: locationName, ids: JSON.stringify(obstacleNames), userid: userid},
         success: function (result) {
         }
     });
@@ -38,20 +38,18 @@ export function CreateUser(firstname, lastname, nickname, password) {
 };
 
 export function LoginUser(nickname, password) {
-    var nickname;
     $.ajax({
         type: "POST",
         url: 'dbcall.php',
         async: false,
         data: {action: "LoginUser",  nickname: nickname, password: password},
         success: function (result) {
-            nickname = result;
+            return result;
         }
     });
-    return nickname;
 };
 
-export function GetUserByNickname($nickname) {
+export function GetUserByNickname(nickname) {
     var arr = Array();
     $.ajax({
         type: "POST",
@@ -62,7 +60,8 @@ export function GetUserByNickname($nickname) {
             arr = JSON.parse(result);
         }
     });
-    return Object.values(arr);
+    return arr;
+    //return Object.values(arr);
 }
 
 export function CreateSession(sessionName, parkourName, userNames) {
@@ -114,6 +113,20 @@ export function GetParkours() {
         url: 'dbcall.php',
         async: false,
         data: {action: "GetParkour"},
+        success: function (result) {
+            arr = JSON.parse(result);
+        }
+    });
+    return Object.values(arr);
+};
+
+export function GetParkourByUserId(userid) {
+    var arr = Array();
+    $.ajax({
+        type: "POST",
+        url: 'dbcall.php',
+        async: false,
+        data: {action: "GetParkourByUserId", userid: userid},
         success: function (result) {
             arr = JSON.parse(result);
         }

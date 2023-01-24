@@ -1,6 +1,7 @@
 import * as dbcall from './dbcall.js';
 
 var myChart;
+var user;
 
 $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
@@ -63,9 +64,9 @@ function validateParkourForm(ev) {
         let obstacles = $("#select option:selected").map(function () {
             return this.value;
         }).get();
-        dbcall.CreateParkour(parkourName, location, obstacles);
+        dbcall.CreateParkour(parkourName, location, obstacles, user["user_id"]);
         ev.preventDefault();
-        var parkours = dbcall.GetParkours();
+        var parkours = dbcall.GetParkourByUserId(user["user_id"]);
         let i = 0;
         document.getElementById("parkourDropdown").innerHTML = "";
         for (var key in parkours) {
@@ -127,6 +128,13 @@ window.onload = function () {
     submitSession.addEventListener("click", validateSessionForm);
     var obstacles = dbcall.GetAllObstacles();
 
+    let url = new URL(window.location.href)
+    let params = new URLSearchParams(url.search);
+    let user_nickname = params.get('User');
+
+    user = dbcall.GetUserByNickname(user_nickname);
+    InsertUser();
+
     for (var key in obstacles) {
         document.getElementById("select").innerHTML += "<option value=" + obstacles[key] + ">" + obstacles[key] + "</option>";// key + ": " + obstacles[key] + "<br>";
     }
@@ -150,7 +158,7 @@ window.onload = function () {
 
     //Add parkours to create session part
 
-    var parkours = dbcall.GetParkours();
+    var parkours = dbcall.GetParkourByUserId(user["user_id"]);
     let i = 0;
     for (key in parkours) {
         if (i = 0) {
@@ -347,6 +355,12 @@ function getPoints(shootInNummer, target) {
     } else if (shootInNummer == 3) {
         return thirdShootPoints[target];
     }
+}
+
+function InsertUser(){
+    document.getElementById("firstname").innerText = user["firstname"];
+    document.getElementById("lastname").innerText = user["lastname"];
+    document.getElementById("nickname").innerText = user["nickname"];
 }
 
 function GetGraph(session) {
