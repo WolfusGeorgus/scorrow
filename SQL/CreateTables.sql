@@ -69,6 +69,7 @@ create table score
     points int unsigned not null,
     attempt int unsigned not null,
     circle int unsigned not null,
+    count_type int unsigned not null,
     constraint score_attempts check (attempt < 4 AND attempt > 0),
     constraint score_circle check (circle < 4 AND circle >= 0)
 );

@@ -38,7 +38,7 @@ if (isset($_POST['action'])) {
         GetUserByNickname($_POST['nickname']);
     }
     if ($_POST['action'] == "MakeShot") {
-        MakeShot($_POST['session'], $_POST['playername'], $_POST['obstaclename'], $_POST['attempt'], $_POST['circle']);
+        MakeShot($_POST['session'], $_POST['playername'], $_POST['obstaclename'], $_POST['attempt'], $_POST['circle'], $_POST["counttype"]);
     }
     if ($_POST['action'] == "GetShotsByPlayer") {
         GetShotsByPlayer($_POST['session'], $_POST['playername']);
@@ -307,7 +307,7 @@ function GetUserByNickname($nickname){
     echo json_encode($user);
 }
 
-function MakeShot($session, $playername, $obstaclename, $attempt, $circle)
+function MakeShot($session, $playername, $obstaclename, $attempt, $circle, $counttype)
 {
     $conn = ConnectToDb();
 
@@ -316,7 +316,7 @@ function MakeShot($session, $playername, $obstaclename, $attempt, $circle)
                     values ('$session', 
                     (select obstacle_id from obstacle where name = '$obstaclename'),
                     (select player_id from player where session_id = '$session' and nickname = '$playername'),
-                    (select score_id from score where attempt = '$attempt' and circle = '$circle'))");
+                    (select score_id from score where attempt = '$attempt' and circle = '$circle' and count_type = '$counttype'))");
 
     $conn->close();
 }
