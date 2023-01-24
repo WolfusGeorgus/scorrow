@@ -59,11 +59,13 @@ function ConnectToDb()
     $username = "id20167235_admin";
     $password = "qYQdBAx/#2T8gQ/N";
     $dbname = "id20167235_scorrow";
-     */
+    */
+
     $servername = "localhost";
     $username = "root";
     $password = "";
     $dbname = "scorrow";
+
     // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
 // Check connection
