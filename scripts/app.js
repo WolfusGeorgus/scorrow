@@ -111,6 +111,15 @@ function validateSessionForm(ev) {
         listOfMembers[r - 1] = listOfNames;
     }
 
+    if (document.getElementById("pfeilewertungDropdown").value == "option2pfeilewertung")
+    {
+        counttype = 2;
+    }
+    else if (document.getElementById("pfeilewertungDropdown").value == "option3pfeilewertung")
+    {
+        counttype = 3;
+    }
+
     let session = dbcall.CreateSession(sessionID, parkourName, listOfMembers);
     document.getElementById("sessionId").value = Math.random().toString(36).slice(2).substring(5);
 }

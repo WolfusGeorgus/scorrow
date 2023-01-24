@@ -298,14 +298,25 @@
             <div class="container">
                 <form action="forms/contact.php" method="post" role="form" class="php-email-form">
                     <div class="row">
-                        <div class="div1">
+                        <div class="col-md-8">
+                            <div class="row">
+                        <div class="col">
                             <label for="name">Parkour</label>
                             <select id="parkourDropdown" class="form-select" aria-label="Default select example">
                             </select>
                         </div>
-                        <div class="div2">
+                        <div class="col">
                             <label for="name">Session ID</label><br>
-                            <input id="sessionId" value="" disabled>
+                            <input class="sessionIdField" id="sessionId" value="" disabled>
+                        </div>
+                        <div class="col">
+                            <label for="name">Pfeilewertung</label>
+                            <select id="pfeilewertungDropdown" class="form-select" aria-label="Default select example">
+                                <option value="option2pfeilewertung">2-Pfeile-Wertung</option>
+                                <option value="option3pfeilewertung">3-Pfeile-Wertung</option>
+                            </select>
+                        </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
