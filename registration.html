@@ -15,17 +15,20 @@
         <div class="content not-blur">
           <h1>Account erstellen</h1>
           <form id="login">
-            <input type="text" placeholder="Benutzername" />
-            <input type="password" placeholder="Passwort" />
-            <input type="password" placeholder="Bestätigen" />
+            <input type="text" id="bName" placeholder="Benutzername" />
+              <input type="text" id="vName" name="" placeholder="Vorname" />
+              <input type="text" id="nName" placeholder="Nachname" />
+            <input type="password" id="psWord"  placeholder="Passwort" />
+            <input type="password" id="bPsWord" placeholder="Bestätigen" />
             <br></br>
             <div class="align-content-center">
             <a href="login.html" class="submit action-button" target="_top">Zurück</a>
-            <a href="login.html" class="submit action-button" target="_top">Erstellen</a>
+            <a id="erstellen" type="submit" class="submit action-button" target="_top">Erstellen</a>
             </div>
           </form>
         </div>
       </div>
       
 </body>
+<script src="scripts/validate.js"></script>
 </html>
