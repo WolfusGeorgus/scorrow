@@ -2,6 +2,7 @@ import * as dbcall from './dbcall.js';
 
 var myChart;
 var user;
+var counttype = 2;
 
 $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
@@ -133,6 +134,9 @@ window.onload = function () {
     let user_nickname = params.get('User');
 
     user = dbcall.GetUserByNickname(user_nickname);
+    if (user == null){
+        window.location.href = "./login.html";
+    }
     InsertUser();
 
     for (var key in obstacles) {
@@ -271,7 +275,6 @@ function targetHit(event) {
                 playerNum++;
                 shootInNum = 1;
                 shoot = "";
-                //UpdateGraph(sessionID, playerNames[playerNum], point);
                 if (playerMax == playerNum) {
                     nextObstacle();
                 } else {
@@ -282,7 +285,7 @@ function targetHit(event) {
             case 'targetBoard':
                 point = 0;
                 shoot += "X";
-                if (shootInNum == 3) {
+                if (shootInNum == counttype) {
                     UpdateShot(sessionID, playerNames[playerNum], obstaclesSpiel[obstacleNum], shootInNum, 0, point)
                     document.getElementById(`hit${playerNum}`).innerText = shoot;
                     playerNum++;
@@ -344,17 +347,31 @@ function nextObstacle() {
 }
 
 function getPoints(shootInNummer, target) {
-    const firstShootPoints = [20, 18, 16];
-    const secondShootPoints = [14, 12, 10];
-    const thirdShootPoints = [8, 6, 4];
+    if (counttype == 3){
+        const firstShootPoints = [20, 18, 16];
+        const secondShootPoints = [14, 12, 10];
+        const thirdShootPoints = [8, 6, 4];
 
-    if (shootInNummer == 1) {
-        return firstShootPoints[target];
-    } else if (shootInNummer == 2) {
-        return secondShootPoints[target];
-    } else if (shootInNummer == 3) {
-        return thirdShootPoints[target];
+        if (shootInNummer == 1) {
+            return firstShootPoints[target];
+        } else if (shootInNummer == 2) {
+            return secondShootPoints[target];
+        } else if (shootInNummer == 3) {
+            return thirdShootPoints[target];
+        }
     }
+    else if(counttype == 2)
+    {
+        const firstShootPoints = [20, 16, 12];
+        const secondShootPoints = [10, 6, 2];
+
+        if (shootInNummer == 1) {
+            return firstShootPoints[target];
+        } else if (shootInNummer == 2) {
+            return secondShootPoints[target];
+        }
+    }
+
 }
 
 function InsertUser(){
@@ -417,7 +434,7 @@ function UpdateGraph(session, playername, points) {
 }
 
 function UpdateShot(session, playername, obstacle, attempt, circle, points) {
-    dbcall.makeShot(session, playername, obstacle, attempt, circle);
+    dbcall.makeShot(session, playername, obstacle, attempt, circle, counttype);
     UpdateGraph(session, playername, points);
 }
 

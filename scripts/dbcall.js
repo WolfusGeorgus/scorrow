@@ -162,7 +162,7 @@ export function GetAllObstacles() {
     return Object.values(arr);
 };
 
-export function makeShot(sessionId, playername, obstaclename, attempt, circle) {
+export function makeShot(sessionId, playername, obstaclename, attempt, circle, counttype) {
     $.ajax({
         type: "POST",
         url: 'dbcall.php',
@@ -173,7 +173,8 @@ export function makeShot(sessionId, playername, obstaclename, attempt, circle) {
             playername: playername,
             obstaclename: obstaclename,
             attempt: attempt,
-            circle: circle
+            circle: circle,
+            counttype: counttype
         },
         success: function (result) {
         }
